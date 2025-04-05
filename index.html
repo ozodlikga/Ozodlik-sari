@@ -1,73 +1,53 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ozodlik sari</title>
   <style>
     body {
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #f0f0f0, #dfefff);
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      background: url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Arial', sans-serif;
+      color: white;
       text-align: center;
     }
-
-    @keyframes fadeInUp {
-      0% {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .fade-in {
-      opacity: 0;
-      animation: fadeInUp 1.2s ease forwards;
-    }
-
     h1 {
-      font-size: 3em;
-      color: #222;
-      margin-bottom: 10px;
+      margin-top: 20%;
+      font-size: 3rem;
+      text-shadow: 0 0 15px #0ff;
+      animation: glow 3s infinite alternate;
     }
-
-    p {
-      font-size: 1.2em;
-      color: #444;
-      max-width: 600px;
-      margin: 0 auto 20px;
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #0ff; }
+      to { text-shadow: 0 0 30px #0ff; }
     }
-
-    .button {
-      display: inline-block;
-      padding: 12px 24px;
-      background-color: #007bff;
-      color: #fff;
-      border-radius: 8px;
-      text-decoration: none;
-      font-size: 1.1em;
-      transition: background-color 0.3s ease;
+    .btn {
+      margin-top: 30px;
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      background-color: #2196F3;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s ease;
     }
-
-    .button:hover {
-      background-color: #0056b3;
+    .btn:hover {
+      background-color: #0b7dda;
+    }
+    audio {
+      display: none;
     }
   </style>
 </head>
 <body>
-  <h1 class="fade-in" style="animation-delay: 0.2s;">Ozodlik sari</h1>
-  <p class="fade-in" style="animation-delay: 0.6s;">
-    Bu oddiy sahifa emas — bu erkinlikning boshlanishi. Men va sen — tizim ichra mustaqil fikr.
-  </p>
-  <a href="#" class="button fade-in" style="animation-delay: 1s;">Boshlaylik</a>
+  <h1>Ozodlik sari</h1>
+  <button class="btn" onclick="alert('Yulduzlar sari!')">Yo‘lni boshlaymiz</button>
+  <audio autoplay loop>
+    <source src="https://cdn.pixabay.com/audio/2021/11/30/audio_f7ff88d327.mp3" type="audio/mpeg">
+  </audio>
 </body>
 </html>
