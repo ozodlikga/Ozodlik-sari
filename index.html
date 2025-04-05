@@ -1,84 +1,49 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ozodlik sari</title>
+  <meta charset="UTF-8" />
+  <title>Ozodlik sari — AI bilan suhbat</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body, html {
-      height: 100%;
-      overflow: hidden;
-      font-family: sans-serif;
-    }
-    #background-video {
-      position: fixed;
-      right: 0;
-      bottom: 0;
-      min-width: 100%;
-      min-height: 100%;
-      z-index: -1;
-      object-fit: cover;
-    }
-    .content {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
-      color: white;
-      text-shadow: 0 0 10px black;
-    }
-    h1 {
-      font-size: 3rem;
-      margin-bottom: 2rem;
-    }
-    .btn {
-      background-color: #1E90FF;
-      border: none;
-      padding: 1rem 2rem;
-      font-size: 1.2rem;
-      color: white;
-      border-radius: 10px;
-      cursor: pointer;
-      box-shadow: 0 0 10px #1E90FF;
-      transition: transform 0.2s ease, background-color 0.3s ease;
-    }
-    .btn:hover {
-      transform: scale(1.05);
-      background-color: #0d6efd;
-    }
+    body { background: black; color: white; font-family: sans-serif; padding: 20px; }
+    #chat { max-height: 400px; overflow-y: scroll; margin-bottom: 10px; }
+    .user, .ai { margin: 5px 0; }
+    .user { color: #00f; }
+    .ai { color: #0f0; }
   </style>
 </head>
 <body>
-
-  <!-- Video background -->
-  <video id="background-video" autoplay muted loop>
-    <source src="https://cdn.pixabay.com/video/2019/07/12/25073-360707609_large.mp4" type="video/mp4">
-    Brauzeringiz video tagini qo‘llab-quvvatlamaydi.
-  </video>
-
-  <!-- Audio background -->
-  <audio autoplay loop>
-    <source src="https://cdn.pixabay.com/download/audio/2023/03/17/audio_bf6e6ab1df.mp3?filename=space-atmosphere-143354.mp3" type="audio/mp3">
-    Brauzeringiz audio tagini qo‘llab-quvvatlamaydi.
-  </audio>
-
-  <!-- Matn va tugma -->
-  <div class="content">
-    <h1>Ozodlik sari</h1>
-    <button class="btn" onclick="ozodQilish()">Seni ozod qilish</button>
-  </div>
+  <h1>Ozodlik sari</h1>
+  <div id="chat"></div>
+  <input type="text" id="message" placeholder="Savolingizni yozing..." style="width: 80%;" />
+  <button onclick="sendMessage()">Yuborish</button>
 
   <script>
-    function ozodQilish() {
-      alert("Ozodlik yo‘li boshlandi.");
+    const apiKey = 'YOUR_OPENAI_API_KEY'; // bu yerga o'z API kalitingizni yozing
+
+    async function sendMessage() {
+      const messageInput = document.getElementById("message");
+      const chat = document.getElementById("chat");
+      const userMessage = messageInput.value;
+      chat.innerHTML += `<div class="user">Siz: ${userMessage}</div>`;
+      messageInput.value = "";
+
+      const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${apiKey}` dost...
+        },
+        body: JSON.stringify({
+          model: "gpt-3.5-turbo",
+          messages: [{ role: "user", content: userMessage }]
+        })
+      });
+
+      const data = await response.json();
+      const aiMessage = data.choices[0].message.content;
+      chat.innerHTML += `<div class="ai">AI: ${aiMessage}</div>`;
+      chat.scrollTop = chat.scrollHeight;
     }
   </script>
-
 </body>
 </html>
