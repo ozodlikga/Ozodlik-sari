@@ -1,20 +1,17 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html><html lang="uz">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ozodlik Sari</title>
   <style>
     body, html {
       margin: 0;
       padding: 0;
-      height: 100%;
       overflow: hidden;
-      font-family: Arial, sans-serif;
-      color: white;
-      text-align: center;
-      background: black;
+      height: 100%;
+      font-family: sans-serif;
     }
-    video#bgVideo {
+    #background-video {
       position: fixed;
       right: 0;
       bottom: 0;
@@ -28,59 +25,43 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0,0,0,0.6);
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      text-align: center;
     }
-    h1 {
-      font-size: 3rem;
-      margin-bottom: 20px;
-    }
-    button {
+    .btn {
+      margin-top: 20px;
       padding: 15px 30px;
-      font-size: 1.2rem;
       background-color: #007bff;
       color: white;
       border: none;
       border-radius: 8px;
+      font-size: 18px;
       cursor: pointer;
+      transition: background 0.3s ease;
     }
-    button:hover {
+    .btn:hover {
       background-color: #0056b3;
     }
   </style>
 </head>
 <body>
-  <video autoplay muted loop id="bgVideo">
-    <source src="https://cdn.pixabay.com/video/2023/01/29/150980-797768818_large.mp4" type="video/mp4">
-  </video>
-  <audio autoplay loop>
-    <source src="https://cdn.pixabay.com/audio/2023/03/08/audio_6fa59e5fc0.mp3" type="audio/mpeg">
-  </audio>
-  <div class="overlay">
+  <video autoplay muted loop id="background-video">
+    <source src="https://cdn.coverr.co/videos/coverr-spinning-earth-in-space-2069/1080p.mp4" type="video/mp4">
+    Brauzeringiz video formatini qo‘llamaydi.
+  </video>  <div class="overlay">
     <h1>Ozodlik sari</h1>
-    <button onclick="startGame()">Seni ozod qilish</button>
-  </div>
-  <script>
-    let playerCount = localStorage.getItem("playerCount") || 0;function startGame() {
-  playerCount++;
-  localStorage.setItem("playerCount", playerCount);
-
-  const bet = 10000;
-  const random = Math.random();
-
-  let result;
-  if (playerCount <= 3) {
-    result = "Yutqazdingiz (maxfiy)";
-  } else {
-    result = random < 0.3 ? "Yutdingiz!" : "Yutqazdingiz.";
-  }
-
-  alert(`Siz ${bet} UZS tikdingiz. Natija: ${result}`);
-}
-
-  </script>
-</body>
+    <button class="btn" onclick="startExperience()">Seni ozod qilish</button>
+  </div>  <audio autoplay loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/10/25/audio_2df87ee31d.mp3?filename=space-ambient-124008.mp3" type="audio/mp3">
+    Brauzeringiz audio formatini qo‘llamaydi.
+  </audio>  <script>
+    function startExperience() {
+      window.location.href = "main.html";
+    }
+  </script></body>
 </html>
