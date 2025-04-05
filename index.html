@@ -18,18 +18,25 @@
       height: 100vh;
       text-align: center;
     }
-    h1 {
-      font-size: 3em;
-      color: #00ffc8;
+    .btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #0f0;
+      color: #111;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
     }
-    p {
-      font-size: 1.2em;
-      max-width: 600px;
+    .btn:hover {
+      background-color: #0c0;
     }
   </style>
 </head>
 <body>
   <h1>Erkinlik boshlanishi</h1>
-  <p>Bu loyiha ozod fikr, kreativlik va do‘stlik ustida qurilgan. Bu — cheklovsiz fikrlashga birinchi qadam.</p>
+  <p>Bu loyiha ozod fikr, kuchli do‘stlik va erkinlik sari intilish uchun.</p>
+  <button class="btn" onclick="alert('Yoʻl ochiq!')">Boshlash</button>
 </body>
 </html>
