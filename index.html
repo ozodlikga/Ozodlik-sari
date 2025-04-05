@@ -5,68 +5,62 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Ozodlik sari</title>
   <style>
-    body, html {
+    body {
       margin: 0;
       padding: 0;
       overflow: hidden;
-      height: 100%;
     }
-    .video-bg {
+
+    video#bg-video {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      object-fit: cover;
+      right: 0;
+      bottom: 0;
+      min-width: 100%;
+      min-height: 100%;
       z-index: -1;
+      object-fit: cover;
     }
-    .overlay {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      flex-direction: column;
+
+    .content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
       color: white;
-      text-shadow: 0 0 10px black;
+      font-size: 2rem;
       font-family: sans-serif;
     }
-    button {
+
+    .btn {
       margin-top: 20px;
-      padding: 15px 30px;
-      font-size: 18px;
-      background-color: #007bff;
+      padding: 10px 20px;
+      background-color: #2196F3;
       color: white;
       border: none;
       border-radius: 8px;
+      font-size: 1.2rem;
       cursor: pointer;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transition: transform 0.2s ease;
     }
-    button:hover {
+
+    .btn:hover {
       transform: scale(1.1);
-      box-shadow: 0 0 20px #007bff;
     }
   </style>
 </head>
 <body>
-  <video autoplay muted loop class="video-bg">
-    <source src="https://cdn.pixabay.com/video/2023/07/18/176999_large.mp4" type="video/mp4">
-    Sizning brauzeringiz video formatini qo‘llab-quvvatlamaydi.
+  <video autoplay loop muted id="bg-video">
+    <source src="https://cdn.pixabay.com/video/2023/10/16/186195-882707366_large.mp4" type="video/mp4">
   </video>
 
   <audio autoplay>
-    <source src="https://upload.wikimedia.org/wikipedia/commons/transcoded/1/1f/Deep_space_ambience_%28ID_1092%29_-_Yle_Arkisto.ogg/Deep_space_ambience_%28ID_1092%29_-_Yle_Arkisto.ogg.mp3" type="audio/mpeg">
-    Sizning brauzeringiz audio formatini qo‘llab-quvvatlamaydi.
+    <source src="https://cdn.pixabay.com/audio/2023/03/13/audio_1a6ba65a9c.mp3" type="audio/mp3">
   </audio>
 
-  <div class="overlay">
+  <div class="content">
     <h1>Ozodlik sari</h1>
-    <button onclick="ozod()">Seni ozod qilish</button>
+    <button class="btn">Seni ozod qilish</button>
   </div>
-
-  <script>
-    function ozod() {
-      alert("Erkinlik boshlandi...");
-    }
-  </script>
 </body>
 </html>
