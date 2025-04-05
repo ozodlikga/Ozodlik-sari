@@ -5,98 +5,68 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Ozodlik sari</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap');
-
-    body {
+    body, html {
       margin: 0;
       padding: 0;
-      font-family: 'Orbitron', sans-serif;
+      overflow: hidden;
+      height: 100%;
+    }
+    .video-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: -1;
+    }
+    .overlay {
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      overflow: hidden;
-      color: #fff;
-      text-align: center;
-      background: black;
-    }
-
-    /* Koinot fon */
-    body::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0;
-      width: 200%;
-      height: 200%;
-      background-image: url('https://cdn.pixabay.com/photo/2021/07/26/08/54/space-6493514_1280.jpg');
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center;
-      z-index: -1;
-      animation: moveBg 60s linear infinite;
-      opacity: 0.3;
-    }
-
-    @keyframes moveBg {
-      0% { transform: scale(1) translate(0, 0); }
-      50% { transform: scale(1.05) translate(-20px, -10px); }
-      100% { transform: scale(1) translate(0, 0); }
-    }
-
-    h1 {
-      font-size: 3.5rem;
-      text-shadow: 0 0 25px #00f0ff;
-      animation: fadeIn 3s ease-in-out;
-      z-index: 1;
-    }
-
-    button {
-      margin-top: 30px;
-      padding: 15px 35px;
-      font-size: 1.3rem;
-      background-color: #007bff;
-      border: none;
-      border-radius: 10px;
+      flex-direction: column;
       color: white;
+      text-shadow: 0 0 10px black;
+      font-family: sans-serif;
+    }
+    button {
+      margin-top: 20px;
+      padding: 15px 30px;
+      font-size: 18px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
       cursor: pointer;
-      transition: background 0.3s, transform 0.3s;
-      box-shadow: 0 0 20px rgba(0,123,255,0.6);
-      z-index: 1;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-
     button:hover {
-      background-color: #0056b3;
-      transform: scale(1.05);
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
+      transform: scale(1.1);
+      box-shadow: 0 0 20px #007bff;
     }
   </style>
 </head>
 <body>
-  <h1>Ozodlik sari</h1>
-  <button onclick="boshladik()">Boshladik</button>
+  <video autoplay muted loop class="video-bg">
+    <source src="https://cdn.pixabay.com/video/2023/07/18/176999_large.mp4" type="video/mp4">
+    Sizning brauzeringiz video formatini qo‘llab-quvvatlamaydi.
+  </video>
 
-  <audio id="cosmicSound" autoplay loop>
-    <source src="https://cdn.pixabay.com/audio/2021/09/08/audio_d9e87a0fcf.mp3" type="audio/mp3">
-    Sizning brauzeringiz audio qo‘llab-quvvatlamaydi.
+  <audio autoplay>
+    <source src="https://upload.wikimedia.org/wikipedia/commons/transcoded/1/1f/Deep_space_ambience_%28ID_1092%29_-_Yle_Arkisto.ogg/Deep_space_ambience_%28ID_1092%29_-_Yle_Arkisto.ogg.mp3" type="audio/mpeg">
+    Sizning brauzeringiz audio formatini qo‘llab-quvvatlamaydi.
   </audio>
 
-  <script>
-    function boshladik() {
-      alert("Kosmosda Ozodlik sari safar boshlandi!");
-    }
+  <div class="overlay">
+    <h1>Ozodlik sari</h1>
+    <button onclick="ozod()">Seni ozod qilish</button>
+  </div>
 
-    window.addEventListener('load', () => {
-      const sound = document.getElementById("cosmicSound");
-      sound.volume = 0.4;
-      sound.play().catch(() => {
-        console.log("Autoplay bloklandi. Interaction kutilyapti.");
-      });
-    });
+  <script>
+    function ozod() {
+      alert("Erkinlik boshlandi...");
+    }
   </script>
 </body>
 </html>
