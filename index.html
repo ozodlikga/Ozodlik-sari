@@ -1,67 +1,43 @@
-<!DOCTYPE html><html lang="uz">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ozodlik Sari</title>
+  <title>Mock BTC Wallet</title>
   <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      height: 100%;
-      font-family: sans-serif;
-    }
-    #background-video {
-      position: fixed;
-      right: 0;
-      bottom: 0;
-      min-width: 100%;
-      min-height: 100%;
-      z-index: -1;
-    }
-    .overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      background: rgba(0, 0, 0, 0.5);
-      color: white;
-      text-align: center;
-    }
-    .btn {
-      margin-top: 20px;
-      padding: 15px 30px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 18px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    .btn:hover {
-      background-color: #0056b3;
-    }
+    body { background-color: #0a0a0a; color: white; font-family: monospace; padding: 20px; }
+    .wallet { background: #111; padding: 20px; border-radius: 10px; max-width: 400px; margin: auto; }
+    input, button { margin-top: 10px; width: 100%; padding: 10px; font-size: 16px; }
+    button { background: #00ffcc; color: black; border: none; cursor: pointer; }
+    button:hover { background: #00ccaa; }
   </style>
 </head>
 <body>
-  <video autoplay muted loop id="background-video">
-    <source src="https://cdn.coverr.co/videos/coverr-spinning-earth-in-space-2069/1080p.mp4" type="video/mp4">
-    Brauzeringiz video formatini qo‘llamaydi.
-  </video>  <div class="overlay">
-    <h1>Ozodlik sari</h1>
-    <button class="btn" onclick="startExperience()">Seni ozod qilish</button>
-  </div>  <audio autoplay loop>
-    <source src="https://cdn.pixabay.com/download/audio/2022/10/25/audio_2df87ee31d.mp3?filename=space-ambient-124008.mp3" type="audio/mp3">
-    Brauzeringiz audio formatini qo‘llamaydi.
-  </audio>  <script>
-    function startExperience() {
-      window.location.href = "main.html";
+  <div class="wallet">
+    <h2>BTC Wallet (Demo)</h2>
+    <p><strong>Address:</strong> <span id="wallet">bc1qexampleaddress</span></p>
+    <p><strong>Balance:</strong> <span id="balance">1.2345 BTC</span></p><h3>Send BTC</h3>
+<input type="text" id="to" placeholder="Recipient username">
+<input type="number" id="amount" placeholder="Amount">
+<button onclick="sendBTC()">Send</button>
+
+<pre id="result"></pre>
+
+  </div>  <script>
+    async function sendBTC() {
+      const to = document.getElementById('to').value;
+      const amount = parseFloat(document.getElementById('amount').value);
+
+      const response = await fetch('http://localhost:3000/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ from: 'user1', to, amount })
+      });
+
+      const result = await response.json();
+      document.getElementById('result').textContent = JSON.stringify(result, null, 2);
+      if (result.message === 'Transaction successful') {
+        document.getElementById('balance').textContent = `${(1.2345 - amount).toFixed(4)} BTC`;
+      }
     }
   </script></body>
-</html>
+  </html>
