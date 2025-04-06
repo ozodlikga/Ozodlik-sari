@@ -1,43 +1,7 @@
-<!DOCTYPE html><html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mock BTC Wallet</title>
-  <style>
-    body { background-color: #0a0a0a; color: white; font-family: monospace; padding: 20px; }
-    .wallet { background: #111; padding: 20px; border-radius: 10px; max-width: 400px; margin: auto; }
-    input, button { margin-top: 10px; width: 100%; padding: 10px; font-size: 16px; }
-    button { background: #00ffcc; color: black; border: none; cursor: pointer; }
-    button:hover { background: #00ccaa; }
-  </style>
-</head>
-<body>
-  <div class="wallet">
-    <h2>BTC Wallet (Demo)</h2>
-    <p><strong>Address:</strong> <span id="wallet">bc1qexampleaddress</span></p>
-    <p><strong>Balance:</strong> <span id="balance">1.2345 BTC</span></p><h3>Send BTC</h3>
-<input type="text" id="to" placeholder="Recipient username">
-<input type="number" id="amount" placeholder="Amount">
-<button onclick="sendBTC()">Send</button>
+SimpleBTCMiner - Educational Purpose Only
 
-<pre id="result"></pre>
+import hashlib import time import random
 
-  </div>  <script>
-    async function sendBTC() {
-      const to = document.getElementById('to').value;
-      const amount = parseFloat(document.getElementById('amount').value);
+def mine_block(difficulty): prefix_str = '0' * difficulty nonce = 0 print("Qazib olinmoqda...") start = time.time() while True: text = 'block' + str(nonce) new_hash = hashlib.sha256(text.encode()).hexdigest() if new_hash.startswith(prefix_str): end = time.time() print(f"Topildi!\nHash: {new_hash}\nNonce: {nonce}\nVaqt: {round(end - start, 2)}s") break nonce += 1
 
-      const response = await fetch('http://localhost:3000/send', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ from: 'user1', to, amount })
-      });
-
-      const result = await response.json();
-      document.getElementById('result').textContent = JSON.stringify(result, null, 2);
-      if (result.message === 'Transaction successful') {
-        document.getElementById('balance').textContent = `${(1.2345 - amount).toFixed(4)} BTC`;
-      }
-    }
-  </script></body>
-  </html>
+if name == 'main': balance = 0.0 while True: user_input = input("BTC qazib olishni boshlaymizmi? (ha/yo'q): ").strip().lower() if user_input == 'ha': difficulty = random.randint(4, 6) mine_block(difficulty) found = round(random.uniform(0.000001, 0.00005), 8) balance += found print(f"Siz {found} BTC topdingiz.\nUmumiy balans: {balance} BTC") elif user_input == "yo'q": print("Tushundingiz, chiqyapmiz.") break else: print("Faqat 'ha' yoki 'yo'q' deb javob bering.")
