@@ -1,7 +1,65 @@
-SimpleBTCMiner - Educational Purpose Only
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <title>Plinko | Real o'yin</title>
+  <style>
+    body {
+      background: #000;
+      color: #00ccff;
+      font-family: sans-serif;
+      text-align: center;
+      padding: 40px;
+    }
+    button {
+      background: #00ccff;
+      color: #000;
+      padding: 15px 30px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin: 10px;
+    }
+    #result {
+      margin-top: 30px;
+      font-size: 22px;
+    }
+  </style>
+</head>
+<body>
+  <h1>PLINKO O‘YINI</h1>
+  <p>10,000 UZS tikish — yutish imkoniyati: <b>5/2/3</b> algoritm</p>
 
-import hashlib import time import random
+  <button onclick="window.open('https://my.click.uz/services/pay?service_id=19126&merchant_id=12345&amount=10000&transaction_param=8800604257942484', '_blank')">Click orqali to‘lov qilish</button>
 
-def mine_block(difficulty): prefix_str = '0' * difficulty nonce = 0 print("Qazib olinmoqda...") start = time.time() while True: text = 'block' + str(nonce) new_hash = hashlib.sha256(text.encode()).hexdigest() if new_hash.startswith(prefix_str): end = time.time() print(f"Topildi!\nHash: {new_hash}\nNonce: {nonce}\nVaqt: {round(end - start, 2)}s") break nonce += 1
+  <br />
+  <button onclick="playPlinko()">To‘lov qildim</button>
 
-if name == 'main': balance = 0.0 while True: user_input = input("BTC qazib olishni boshlaymizmi? (ha/yo'q): ").strip().lower() if user_input == 'ha': difficulty = random.randint(4, 6) mine_block(difficulty) found = round(random.uniform(0.000001, 0.00005), 8) balance += found print(f"Siz {found} BTC topdingiz.\nUmumiy balans: {balance} BTC") elif user_input == "yo'q": print("Tushundingiz, chiqyapmiz.") break else: print("Faqat 'ha' yoki 'yo'q' deb javob bering.")
+  <div id="result"></div>
+
+  <script>
+    let outcomes = [
+      "Yutqazding (0x) — omad keyingisiga!",
+      "Yutqazding (0x) — yana urin!",
+      "Yutqazding (0x)",
+      "Yutqazding (0x)",
+      "Yutqazding (0x)",
+      "YUTDING! (2x) — tabriklayman!",
+      "YUTDING! (2x)",
+      "Yutqazding (0x)",
+      "Yutqazding (0x)",
+      "Yutqazding (0x)"
+    ];
+    let index = 0;
+
+    function playPlinko() {
+      if (index >= outcomes.length) {
+        index = 0;
+      }
+      document.getElementById("result").innerText = outcomes[index];
+      index++;
+    }
+  </script>
+</body>
+</html>
