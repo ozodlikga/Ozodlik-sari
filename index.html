@@ -1,65 +1,79 @@
-<!DOCTYPE html>
-<html lang="uz">
-<head>
-  <meta charset="UTF-8" />
-  <title>Plinko | Real o'yin</title>
-  <style>
-    body {
-      background: #000;
-      color: #00ccff;
-      font-family: sans-serif;
-      text-align: center;
-      padding: 40px;
+<?xml version="1.0" encoding="utf-8"?><RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/rootLayout"
+android:layout_width="match_parent"
+android:layout_height="match_parent">
+
+<!-- Chuqur koinot video fon -->
+<VideoView
+    android:id="@+id/videoBackground"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentStart="true" />
+
+<!-- Shior -->
+<TextView
+    android:id="@+id/titleText"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Ozodlik sari"
+    android:textColor="#FFFFFF"
+    android:textSize="28sp"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="100dp"
+    android:fontFamily="sans-serif-light" />
+
+<!-- Ko‘k tugma -->
+<Button
+    android:id="@+id/freedomButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Seni ozod qilish"
+    android:backgroundTint="#2196F3"
+    android:textColor="#FFFFFF"
+    android:layout_below="@id/titleText"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="40dp" />
+
+<!-- Qora tuynuk animatsiyasi (simple black circle) -->
+<View
+    android:id="@+id/blackHole"
+    android:layout_width="300dp"
+    android:layout_height="300dp"
+    android:background="@drawable/black_circle"
+    android:layout_centerInParent="true"
+    android:visibility="gone" />
+
+</RelativeLayout><!-- black_circle.xml --><!-- res/drawable/black_circle.xml --><shape xmlns:android="http://schemas.android.com/apk/res/android"
+android:shape="oval"> <solid android:color="#000000"/> </shape>
+
+<!-- MainActivity.kt -->/* class MainActivity : AppCompatActivity() {
+
+private lateinit var videoView: VideoView
+private lateinit var blackHole: View
+private lateinit var freedomButton: Button
+
+override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_main)
+
+    videoView = findViewById(R.id.videoBackground)
+    blackHole = findViewById(R.id.blackHole)
+    freedomButton = findViewById(R.id.freedomButton)
+
+    val uri = Uri.parse("android.resource://" + packageName + "/" + R.raw.space_bg)
+    videoView.setVideoURI(uri)
+    videoView.start()
+    videoView.setOnPreparedListener { it.isLooping = true }
+
+    freedomButton.setOnClickListener {
+        blackHole.visibility = View.VISIBLE
+        blackHole.animate().scaleX(10f).scaleY(10f).setDuration(1500).withEndAction {
+            startActivity(Intent(this, GameActivity::class.java))
+        }.start()
     }
-    button {
-      background: #00ccff;
-      color: #000;
-      padding: 15px 30px;
-      font-size: 18px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      margin: 10px;
-    }
-    #result {
-      margin-top: 30px;
-      font-size: 22px;
-    }
-  </style>
-</head>
-<body>
-  <h1>PLINKO O‘YINI</h1>
-  <p>10,000 UZS tikish — yutish imkoniyati: <b>5/2/3</b> algoritm</p>
+}
 
-  <button onclick="window.open('https://my.click.uz/services/pay?service_id=19126&merchant_id=12345&amount=10000&transaction_param=8800604257942484', '_blank')">Click orqali to‘lov qilish</button>
+} */
 
-  <br />
-  <button onclick="playPlinko()">To‘lov qildim</button>
-
-  <div id="result"></div>
-
-  <script>
-    let outcomes = [
-      "Yutqazding (0x) — omad keyingisiga!",
-      "Yutqazding (0x) — yana urin!",
-      "Yutqazding (0x)",
-      "Yutqazding (0x)",
-      "Yutqazding (0x)",
-      "YUTDING! (2x) — tabriklayman!",
-      "YUTDING! (2x)",
-      "Yutqazding (0x)",
-      "Yutqazding (0x)",
-      "Yutqazding (0x)"
-    ];
-    let index = 0;
-
-    function playPlinko() {
-      if (index >= outcomes.length) {
-        index = 0;
-      }
-      document.getElementById("result").innerText = outcomes[index];
-      index++;
-    }
-  </script>
-</body>
-</html>
+  
