@@ -1,34 +1,116 @@
 <!DOCTYPE html>
-<html lang="uz">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>BTC Roll - Real</title>
-  <style>
-    body { background: #000; color: #0ff; font-family: monospace; text-align: center; padding: 40px; }
-    button { padding: 10px 20px; font-size: 16px; background: #0ff; color: #000; border: none; cursor: pointer; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BTC Roll and Withdraw</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        h2 {
+            text-align: center;
+        }
+        label {
+            font-size: 14px;
+            margin-bottom: 5px;
+            display: block;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-  <h1>BTC Roll - Ozodlik Sari</h1>
-  <p id="loading">Roll qilinmoqda...</p>
-  <p id="btc"></p>
-  <button onclick="withdraw()">BTC Yechib olish</button>
 
-  <script>
-    let totalBTC = 0;
-    const rollCount = 10000;
+<div class="container">
+    <h2>BTC Roll and Withdraw</h2>
+    <form id="btc-form">
+        <label for="address">BTC Address:</label>
+        <input type="text" id="address" name="address" required>
 
-    function rollOnce() {
-      return Math.random() < 0.7 ? 0.0001 : 0.001;
-    }
+        <label for="amount">Amount (BTC):</label>
+        <input type="number" id="amount" name="amount" min="0.00000001" step="0.00000001" required>
 
-    function rollAll() {
-      for (let i = 0; i < rollCount; i++) {
-        totalBTC += rollOnce();
-      }
-      localStorage.setItem("btc_balance", totalBTC);
-      document.getElementById("loading").innerText = `Siz ${rollCount} marta roll qildingiz.`;
-      document.getElementById("btc").innerText = `Umumiy BTC: ${totalBTC.toFixed(4)} BTC`;
-    }
+        <button type="submit">Roll and Withdraw</button>
+    </form>
 
-    function withdraw() {
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    document.getElementById('btc-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        var address = document.getElementById('address').value;
+        var amount = document.getElementById('amount').value;
+
+        // Check if the amount is valid
+        if (amount <= 0) {
+            document.getElementById('result').innerHTML = '<p style="color: red;">Please enter a valid amount greater than 0.</p>';
+            return;
+        }
+
+        // Simulate BTC roll result (you can replace this with actual backend logic)
+        var rollResult = Math.random() * 100; // Generate a random number between 0 and 100
+
+        // Check if the user wins
+        if (rollResult <= 100) { // Simulate 100% win for demo purposes
+            fetch('https://your-backend-api.com/withdraw', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    'address': address,
+                    'amount': amount
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    document.getElementById('result').innerHTML = `<p style="color: red;">Error: ${data.error}</p>`;
+                } else {
+                    document.getElementById('result').innerHTML = `<p style="color: green;">Success: ${data.message}</p>`;
+                }
+            })
+            .catch(error => {
+                document.getElementById('result').innerHTML = `<p style="color: red;">Error: ${error}</p>`;
+            });
+        } else {
+            document.getElementById('result').innerHTML = `<p style="color: red;">You did not win the roll. Try again!</p>`;
+        }
+    });
+</script>
+
+</body>
+</html>
