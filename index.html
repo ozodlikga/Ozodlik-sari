@@ -1,92 +1,54 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-  <meta charset="UTF-8" />
-  <title>Ozodlik sari</title>
+  <meta charset="UTF-8">
+  <title>Demo BTC Narxi</title>
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow: hidden;
-      font-family: 'Orbitron', sans-serif;
-      background: radial-gradient(ellipse at center, #000011 0%, #000000 100%);
-      color: white;
+    body {
+      background-color: #0e0e0e;
+      color: #f2f2f2;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
     }
-
-    .center-content {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+    .box {
+      background-color: #1a1a1a;
+      padding: 20px 40px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
       text-align: center;
     }
-
-    .title {
-      font-size: 48px;
-      letter-spacing: 4px;
-      text-shadow: 0 0 20px #00f0ff;
-    }
-
-    .release-button {
-      margin-top: 20px;
-      padding: 15px 30px;
-      background-color: #007bff;
-      border: none;
-      color: white;
-      font-size: 18px;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: 0.3s;
-      box-shadow: 0 0 10px #00f0ff;
-    }
-
-    .release-button:hover {
-      background-color: #0056b3;
-    }
-
-    .black-hole {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      width: 0px;
-      height: 0px;
-      background: radial-gradient(circle, #000000 30%, transparent 70%);
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 999;
-      transition: width 1s ease-out, height 1s ease-out;
+    .price {
+      font-size: 2em;
+      margin-top: 10px;
+      color: #ffd700;
     }
   </style>
 </head>
 <body>
-
-  <div class="center-content">
-    <h1 class="title">OZODLIK SARI</h1>
-    <button id="releaseBtn" class="release-button">SENI OZOD QILISH</button>
+  <div class="box">
+    <h1>Bitcoin (BTC) Narxi</h1>
+    <div class="price" id="btc-price">Yuklanmoqda...</div>
   </div>
 
-  <div class="black-hole" id="blackHole"></div>
-
-  <audio id="freedomSound" preload="auto">
-    <source src="data:audio/mp3;base64,//uQxA... (bu yerda uzun kod bo‘ladi)" type="audio/mp3">
-  </audio>
-
   <script>
-    document.getElementById("releaseBtn").addEventListener("click", () => {
-      const blackHole = document.getElementById("blackHole");
-      const sound = document.getElementById("freedomSound");
+    async function fetchBTCPrice() {
+      try {
+        const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
+        const data = await res.json();
+        const price = data.bitcoin.usd;
+        document.getElementById('btc-price').textContent = `$${price.toLocaleString()}`;
+      } catch (err) {
+        document.getElementById('btc-price').textContent = 'Xatolik yuz berdi.';
+        console.error(err);
+      }
+    }
 
-      blackHole.style.width = "3000px";
-      blackHole.style.height = "3000px";
-
-      sound.play();
-
-      setTimeout(() => {
-        alert("Oʻyinga xush kelibsiz!");
-        // window.location.href = "game.html"; // keyinchalik sahifa o‘zgaradi
-      }, 2500);
-    });
+    fetchBTCPrice();
+    setInterval(fetchBTCPrice, 60000); // Har 60 soniyada yangilanadi
   </script>
 </body>
 </html>
