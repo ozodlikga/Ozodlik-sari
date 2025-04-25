@@ -1,54 +1,111 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-  <meta charset="UTF-8">
-  <title>Demo BTC Narxi</title>
-  <style>
-    body {
-      background-color: #0e0e0e;
-      color: #f2f2f2;
-      font-family: Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-    }
-    .box {
-      background-color: #1a1a1a;
-      padding: 20px 40px;
-      border-radius: 12px;
-      box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
-      text-align: center;
-    }
-    .price {
-      font-size: 2em;
-      margin-top: 10px;
-      color: #ffd700;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GTA 5: Uzbek - Reklama</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #0d0d0d;
+            color: white;
+        }
+        #game-container {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            background: url('shahar-background.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .advert-container {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 300px;
+            height: 250px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+        }
+        .advert-container h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+        .advert-container button {
+            margin-top: 10px;
+            background-color: #0057b7;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .advert-container button:hover {
+            background-color: #003b8e;
+        }
+        .play-button {
+            position: absolute;
+            bottom: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #0057b7;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .play-button:hover {
+            background-color: #003b8e;
+        }
+    </style>
 </head>
 <body>
-  <div class="box">
-    <h1>Bitcoin (BTC) Narxi</h1>
-    <div class="price" id="btc-price">Yuklanmoqda...</div>
-  </div>
 
-  <script>
-    async function fetchBTCPrice() {
-      try {
-        const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
-        const data = await res.json();
-        const price = data.bitcoin.usd;
-        document.getElementById('btc-price').textContent = `$${price.toLocaleString()}`;
-      } catch (err) {
-        document.getElementById('btc-price').textContent = 'Xatolik yuz berdi.';
-        console.error(err);
-      }
-    }
+    <div id="game-container">
+        <!-- Reklama kontentini qo‘shish -->
+        <div class="advert-container" id="advert-container">
+            <h3>Reklama ko‘rish uchun bosing!</h3>
+            <!-- Bu yerda Google AdSense yoki boshqa reklama kodi bo‘ladi -->
+            <div id="adsense-ad">
+                <!-- Reklama uchun JavaScript yoki HTML kodlarini joylashtiring -->
+                <p>Reklama o‘rnatilsin!</p>
+                <button onclick="showGame()">Reklama Ko‘rish</button>
+            </div>
+        </div>
 
-    fetchBTCPrice();
-    setInterval(fetchBTCPrice, 60000); // Har 60 soniyada yangilanadi
-  </script>
+        <!-- O‘yin boshlandi degan tugma -->
+        <div class="play-button" onclick="startGame()">O‘ynash</div>
+    </div>
+
+    <script>
+        function showGame() {
+            // Reklama ko‘rish tugmasi bosilganda o‘yin boshlanadi
+            alert("Reklama ko‘rildi! Endi o‘ynaymiz...");
+            document.getElementById('advert-container').style.display = 'none';
+            document.getElementById('game-container').innerHTML = `
+                <h1 style="text-align: center;">GTA 5: Uzbek</h1>
+                <p style="text-align: center;">Shaharni zabt qilish uchun boshlang!</p>
+                <div style="text-align: center;">
+                    <button onclick="nextMission()">Keyingi Missiya</button>
+                </div>
+            `;
+        }
+
+        function startGame() {
+            // O‘yin boshlash logikasi
+            alert("O‘yin boshlanyapti... Shaharni zabt qilishga tayyor bo‘l!");
+        }
+
+        function nextMission() {
+            // Keyingi missiyani ko‘rsatish
+            alert("Keyingi missiya: Telefon o‘g‘risini quvla!");
+        }
+    </script>
+
 </body>
 </html>
