@@ -1,131 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Flex Amazon Clone</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <style>
-    body { font-family: Arial; background: #f0f2f5; margin: 0; }
-    header { background: #232f3e; color: white; padding: 15px; text-align: center; font-size: 24px; }
-    nav { padding: 10px; background: #37475a; color: white; text-align: center; }
-    #loginForm, #registerForm, #addProduct, #productList { margin: 20px auto; width: 90%; max-width: 600px; background: white; padding: 15px; border-radius: 5px; }
-    input, button { padding: 10px; margin: 5px 0; width: 100%; box-sizing: border-box; }
-    .card { border: 1px solid #ccc; border-radius: 8px; padding: 10px; margin-bottom: 10px; background: #fff; }
-    .card img { max-width: 100%; height: 150px; object-fit: cover; border-radius: 5px; }
-    .card button { background: #febd69; border: none; color: black; font-weight: bold; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flex - Online Shopping</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f3f3f3;
+        }
+        .header {
+            background-color: #232f3e;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .header img {
+            height: 40px;
+        }
+        .header .search-bar {
+            width: 50%;
+            display: flex;
+        }
+        .header .search-bar input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px 0 0 5px;
+        }
+        .header .search-bar button {
+            padding: 10px;
+            background-color: #febd69;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+        .nav {
+            background-color: #37475a;
+            padding: 10px 20px;
+        }
+        .nav a {
+            color: white;
+            margin-right: 20px;
+            text-decoration: none;
+        }
+        .main {
+            max-width: 1200px;
+            margin: 20px auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .product-card {
+            background-color: white;
+            width: 23%;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .product-card img {
+            max-width: 100%;
+            height: auto;
+        }
+        .product-card h3 {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+        .product-card p {
+            color: #b12704;
+            font-weight: bold;
+        }
+        .footer {
+            background-color: #232f3e;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
-
-<header>Flex - Amazon Clone</header>
-<nav>
-  <span id="welcomeUser"></span>
-</nav>
-
-<!-- Register -->
-<div id="registerForm">
-  <h3>Ro'yxatdan o'tish</h3>
-  <input type="text" id="regUsername" placeholder="Username" />
-  <input type="password" id="regPassword" placeholder="Password" />
-  <button onclick="register()">Register</button>
-</div>
-
-<!-- Login -->
-<div id="loginForm">
-  <h3>Tizimga kirish</h3>
-  <input type="text" id="loginUsername" placeholder="Username" />
-  <input type="password" id="loginPassword" placeholder="Password" />
-  <button onclick="login()">Login</button>
-</div>
-
-<!-- Admin panel -->
-<div id="addProduct" style="display:none;">
-  <h3>Admin Panel: Mahsulot qo'shish</h3>
-  <input type="text" id="productName" placeholder="Mahsulot nomi" />
-  <input type="text" id="productPrice" placeholder="Narxi" />
-  <input type="text" id="productImg" placeholder="Rasm URL manzili" />
-  <button onclick="addProduct()">Qo‘shish</button>
-</div>
-
-<!-- Mahsulotlar -->
-<div id="productList">
-  <h3>Mahsulotlar</h3>
-</div>
-
-<script>
-  let currentUser = null;
-  const ADMIN = "admin"; // sening usernameng
-
-  function register() {
-    const user = document.getElementById("regUsername").value;
-    const pass = document.getElementById("regPassword").value;
-    const users = JSON.parse(localStorage.getItem("users") || "[]");
-    if (users.find(u => u.user === user)) {
-      alert("Bu foydalanuvchi allaqachon bor.");
-    } else {
-      users.push({ user, pass });
-      localStorage.setItem("users", JSON.stringify(users));
-      alert("Ro'yxatdan o'tdingiz! Endi login qiling.");
-    }
-  }
-
-  function login() {
-    const user = document.getElementById("loginUsername").value;
-    const pass = document.getElementById("loginPassword").value;
-    const users = JSON.parse(localStorage.getItem("users") || "[]");
-    const match = users.find(u => u.user === user && u.pass === pass);
-    if (match) {
-      currentUser = user;
-      document.getElementById("welcomeUser").innerText = "Xush kelibsiz, " + user;
-      document.getElementById("loginForm").style.display = "none";
-      document.getElementById("registerForm").style.display = "none";
-      if (user === ADMIN) document.getElementById("addProduct").style.display = "block";
-      loadProducts();
-    } else {
-      alert("Login yoki parol xato!");
-    }
-  }
-
-  function addProduct() {
-    const name = document.getElementById("productName").value;
-    const price = document.getElementById("productPrice").value;
-    const img = document.getElementById("productImg").value;
-    const products = JSON.parse(localStorage.getItem("products") || "[]");
-    products.push({ name, price, img });
-    localStorage.setItem("products", JSON.stringify(products));
-    loadProducts();
-    document.getElementById("productName").value = "";
-    document.getElementById("productPrice").value = "";
-    document.getElementById("productImg").value = "";
-  }
-
-  function loadProducts() {
-    const products = JSON.parse(localStorage.getItem("products") || "[]");
-    const container = document.getElementById("productList");
-    container.innerHTML = "<h3>Mahsulotlar</h3>";
-    products.forEach(p => {
-      const card = document.createElement("div");
-      card.className = "card";
-      card.innerHTML = `
-        <img src="${p.img}" alt="${p.name}" />
-        <h4>${p.name}</h4>
-        <p><b>${p.price}</b></p>
-        <button onclick="buyProduct('${p.name}')">Buy Now</button>
-      `;
-      container.appendChild(card);
-    });
-  }
-
-  function buyProduct(name) {
-    alert(`Mahsulot: ${name} – admin bilan bog‘laning!`);
-    window.location.href = "https://t.me/flexshop_admin";
-  }
-
-  // Avto-yuklash (agar login qilingan bo‘lsa)
-  window.onload = () => {
-    loadProducts();
-  }
-</script>
-
+    <div class="header">
+        <img src="https://via.placeholder.com/100x40?text=Flex" alt="Flex Logo">
+        <div class="search-bar">
+            <input type="text" placeholder="Search Flex...">
+            <button>🔍</button>
+        </div>
+        <div>
+            <a href="#" style="color: white; text-decoration: none;">Account</a> | 
+            <a href="#" style="color: white; text-decoration: none;">Cart</a>
+        </div>
+    </div>
+    <div class="nav">
+        <a href="#">Home</a>
+        <a href="#">Electronics</a>
+        <a href="#">Books</a>
+        <a href="#">Fashion</a>
+        <a href="#">Deals</a>
+    </div>
+    <div class="main">
+        <div class="product-card">
+            <img src="https://via.placeholder.com/150" alt="Product">
+            <h3>Sample Product 1</h3>
+            <p>$29.99</p>
+        </div>
+        <div class="product-card">
+            <img src="https://via.placeholder.com/150" alt="Product">
+            <h3>Sample Product 2</h3>
+            <p>$49.99</p>
+        </div>
+        <div class="product-card">
+            <img src="https://via.placeholder.com/150" alt="Product">
+            <h3>Sample Product 3</h3>
+            <p>$19.99</p>
+        </div>
+        <div class="product-card">
+            <img src="https://via.placeholder.com/150" alt="Product">
+            <h3>Sample Product 4</h3>
+            <p>$39.99</p>
+        </div>
+    </div>
+    <div class="footer">
+        <p>&copy; 2025 Flex. All rights reserved.</p>
+    </div>
 </body>
 </html>
