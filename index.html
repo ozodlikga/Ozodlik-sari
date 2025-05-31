@@ -88,20 +88,6 @@
             font-weight: bold;
             margin: 5px 0;
         }
-        .buy-btn {
-            background-color: #23e5db;
-            color: #002f34;
-            padding: 8px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-        .buy-btn:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
         .footer {
             background-color: #002f34;
             color: white;
@@ -279,10 +265,10 @@
 
     <script>
         let ads = JSON.parse(localStorage.getItem('ads')) || [
-            { id: 1, title: "Used Laptop", price: 200, location: "Tashkent", category: "Electronics", image: "https://via.placeholder.com/150", user: "user1", date: Date.now(), sold: false },
-            { id: 2, title: "Bicycle", price: 50, location: "Samarkand", category: "Vehicles", image: "https://via.placeholder.com/150", user: "user1", date: Date.now(), sold: false },
-            { id: 3, title: "Sofa Set", price: 150, location: "Bukhara", category: "Home & Garden", image: "https://via.placeholder.com/150", user: "user2", date: Date.now(), sold: false },
-            { id: 4, title: "Smartphone", price: 300, location: "Fergana", category: "Electronics", image: "https://via.placeholder.com/150", user: "user2", date: Date.now(), sold: false }
+            { id: 1, title: "Used Laptop", price: 200, location: "Tashkent", category: "Electronics", image: "https://via.placeholder.com/150", user: "user1", date: Date.now() },
+            { id: 2, title: "Bicycle", price: 50, location: "Samarkand", category: "Vehicles", image: "https://via.placeholder.com/150", user: "user1", date: Date.now() },
+            { id: 3, title: "Sofa Set", price: 150, location: "Bukhara", category: "Home & Garden", image: "https://via.placeholder.com/150", user: "user2", date: Date.now() },
+            { id: 4, title: "Smartphone", price: 300, location: "Fergana", category: "Electronics", image: "https://via.placeholder.com/150", user: "user2", date: Date.now() }
         ];
         let currentUser = localStorage.getItem('currentUser') || null;
         let currentPage = 1;
@@ -357,23 +343,6 @@
             renderAds(ads.filter(ad => ad.user === currentUser));
         }
 
-        function buyItem(adId) {
-            if (!currentUser) {
-                alert('Please login to buy an item');
-                openLoginModal();
-                return;
-            }
-            const adIndex = ads.findIndex(ad => ad.id === adId);
-            if (ads[adIndex].user === currentUser) {
-                alert("You cannot buy your own item!");
-                return;
-            }
-            ads[adIndex].sold = true;
-            localStorage.setItem('ads', JSON.stringify(ads));
-            alert(`You bought "${ads[adIndex].title}" for $${ads[adIndex].price}!`);
-            renderAds(getFilteredAds(), currentPage);
-        }
-
         document.getElementById('ad-image').addEventListener('change', function(event) {
             const file = event.target.files[0];
             const imageError = document.getElementById('image-error');
@@ -441,8 +410,7 @@
                     category,
                     image: image || 'https://via.placeholder.com/150',
                     user: currentUser,
-                    date: Date.now(),
-                    sold: false
+                    date: Date.now()
                 };
                 ads.unshift(ad);
                 localStorage.setItem('ads', JSON.stringify(ads));
@@ -467,7 +435,6 @@
                     <p>$${ad.price}</p>
                     <p>${ad.location}</p>
                     <p>${ad.category}</p>
-                    <button class="buy-btn" onclick="buyItem(${ad.id})" ${ad.sold ? 'disabled' : ''}>${ad.sold ? 'Sold' : 'Buy'}</button>
                 `;
                 adContainer.appendChild(adCard);
             });
@@ -531,4 +498,10 @@
             }
             currentPage = 1;
             renderAds(sortedAds);
-    
+        }
+
+        document.getElementById('search-input').addEventListener('input', searchAds);
+        renderAds();
+    </script>
+</body>
+</html>
