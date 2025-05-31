@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mini Amazon</title>
+  <title>My Online Store</title>
   <style>
     body {
       margin: 0;
@@ -47,8 +47,9 @@
     }
     .card img {
       max-width: 100%;
-      height: 150px;
+      height: 180px;
       object-fit: contain;
+      margin-bottom: 10px;
     }
     .card h3 {
       font-size: 1rem;
@@ -60,6 +61,7 @@
     }
     .card button {
       padding: 8px 12px;
+      margin: 5px;
       background-color: #f0c14b;
       border: 1px solid #a88734;
       cursor: pointer;
@@ -76,37 +78,20 @@
 </header>
 
 <nav>
-  Home | Electronics | Fashion | Books | Toys
+  Home | T-shirt | Bags | Shoes | Phones
 </nav>
 
 <section class="products">
+  <!-- Mahsulot 1 -->
   <div class="card">
-    <img src="https://via.placeholder.com/150" alt="Product">
-    <h3>Wireless Headphones</h3>
-    <p>$29.99</p>
+    <img src="https://example.com/your-product-image.jpg" alt="Your Product">
+    <h3>My Custom T-shirt</h3>
+    <p>99,000 so'm</p>
     <button>Add to Cart</button>
+    <button onclick="alert('Sotib olish uchun Telegramga yozing: @yourusername')">Buy Now</button>
   </div>
 
-  <div class="card">
-    <img src="https://via.placeholder.com/150" alt="Product">
-    <h3>Smartphone</h3>
-    <p>$199.99</p>
-    <button>Add to Cart</button>
-  </div>
-
-  <div class="card">
-    <img src="https://via.placeholder.com/150" alt="Product">
-    <h3>Backpack</h3>
-    <p>$39.99</p>
-    <button>Add to Cart</button>
-  </div>
-
-  <div class="card">
-    <img src="https://via.placeholder.com/150" alt="Product">
-    <h3>Laptop</h3>
-    <p>$499.99</p>
-    <button>Add to Cart</button>
-  </div>
+  <!-- Yana mahsulot qo‘shish uchun shunchaki shuni ko‘paytiring -->
 </section>
 
 </body>
