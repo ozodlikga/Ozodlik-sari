@@ -1,20 +1,113 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.subwaysurferclone">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mini Amazon</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f3f3f3;
+    }
+    header {
+      background-color: #232f3e;
+      color: white;
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    .search-bar input {
+      padding: 8px;
+      width: 300px;
+    }
+    nav {
+      background-color: #37475a;
+      color: white;
+      padding: 10px;
+      text-align: center;
+    }
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+    .card {
+      background-color: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .card img {
+      max-width: 100%;
+      height: 150px;
+      object-fit: contain;
+    }
+    .card h3 {
+      font-size: 1rem;
+      margin: 10px 0;
+    }
+    .card p {
+      color: green;
+      font-weight: bold;
+    }
+    .card button {
+      padding: 8px 12px;
+      background-color: #f0c14b;
+      border: 1px solid #a88734;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
 
-    <application
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="Subway Surfers Clone"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".MainActivity"
-            android:screenOrientation="landscape">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-    </application>
+<header>
+  <div class="logo">MiniAmazon</div>
+  <div class="search-bar">
+    <input type="text" placeholder="Search products..."/>
+  </div>
+</header>
 
-                </manifest>
+<nav>
+  Home | Electronics | Fashion | Books | Toys
+</nav>
+
+<section class="products">
+  <div class="card">
+    <img src="https://via.placeholder.com/150" alt="Product">
+    <h3>Wireless Headphones</h3>
+    <p>$29.99</p>
+    <button>Add to Cart</button>
+  </div>
+
+  <div class="card">
+    <img src="https://via.placeholder.com/150" alt="Product">
+    <h3>Smartphone</h3>
+    <p>$199.99</p>
+    <button>Add to Cart</button>
+  </div>
+
+  <div class="card">
+    <img src="https://via.placeholder.com/150" alt="Product">
+    <h3>Backpack</h3>
+    <p>$39.99</p>
+    <button>Add to Cart</button>
+  </div>
+
+  <div class="card">
+    <img src="https://via.placeholder.com/150" alt="Product">
+    <h3>Laptop</h3>
+    <p>$499.99</p>
+    <button>Add to Cart</button>
+  </div>
+</section>
+
+</body>
+</html>
