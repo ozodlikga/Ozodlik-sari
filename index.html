@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flex - Buy & Sell</title>
+    <meta name="description" content="Ozodlik sari - Buy and sell items locally with ease">
+    <meta name="keywords" content="Ozodlik sari, buy, sell, marketplace, local ads">
+    <title>Ozodlik sari - Buy & Sell</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -42,22 +44,12 @@
             width: 90%;
         }
         @keyframes slideDown {
-            0% {
-                transform: translateY(-100vh);
-                opacity: 0;
-            }
-            100% {
-                transform: translateY(0);
-                opacity: 1;
-            }
+            0% { transform: translateY(-100vh); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
         }
         @keyframes fadeIn {
-            0% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 1;
-            }
+            0% { opacity: 0; }
+            100% { opacity: 1; }
         }
 
         /* Header */
@@ -210,22 +202,25 @@
             .modal-content {
                 width: 90%;
             }
+            #splash-text {
+                font-size: 30px;
+            }
         }
     </style>
 </head>
 <body>
     <!-- Splash Screen -->
     <div id="splash-screen">
-        <div id="splash-text">Savdo sotiq FLEX</div>
+        <div id="splash-text">Ozodlik sari</div>
         <div id="splash-logo">
-            <img src="https://via.placeholder.com/300x500?text=Flex+Logo" alt="Flex Logo">
+            <img src="https://via.placeholder.com/300x500?text=Ozodlik+sari+Logo" alt="Ozodlik sari Logo">
         </div>
     </div>
 
     <!-- Main Content -->
     <div id="main-content" style="display: none;">
         <div class="header">
-            <img src="https://via.placeholder.com/100x40?text=Flex" alt="Flex Logo">
+            <img src="https://via.placeholder.com/100x40?text=Ozodlik+sari" alt="Ozodlik sari Logo">
             <div class="search-bar">
                 <input type="text" placeholder="Search for anything...">
                 <button>🔍</button>
@@ -270,7 +265,7 @@
             </div>
         </div>
         <div class="footer">
-            <p>© 2025 Flex. All rights reserved.</p>
+            <p>© 2025 Ozodlik sari. All rights reserved.</p>
         </div>
 
         <div class="modal" id="ad-modal">
@@ -346,4 +341,4 @@
         }
     </script>
 </body>
-                    </html>
+    </html>
