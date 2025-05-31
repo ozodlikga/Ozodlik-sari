@@ -28,20 +28,35 @@
             align-items: center;
             z-index: 9999;
             color: white;
+        }
+        #splash-text {
             font-size: 40px;
             font-weight: bold;
-            text-align: center;
+            animation: slideDown 1.5s ease-in-out;
         }
         #splash-logo {
-            animation: zoomIn 1.5s ease-in-out;
+            margin-top: 20px;
+            animation: fadeIn 1.5s ease-in-out;
         }
-        @keyframes zoomIn {
+        #splash-logo img {
+            max-width: 300px;
+            width: 90%;
+        }
+        @keyframes slideDown {
             0% {
-                transform: scale(0.5);
+                transform: translateY(-100vh);
                 opacity: 0;
             }
             100% {
-                transform: scale(1);
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
                 opacity: 1;
             }
         }
@@ -128,11 +143,6 @@
             font-weight: bold;
             margin: 5px 0;
         }
-        .ad-card a {
-            color: #1e88e5;
-            text-decoration: none;
-            font-size: 14px;
-        }
         .footer {
             background-color: #002f34;
             color: white;
@@ -159,7 +169,7 @@
             background-color: rgba(0,0,0,0.5);
             justify-content: center;
             align-items: center;
-            animation: fadeIn 0.3s;
+            animation: fadeInModal 0.3s;
         }
         .modal-content {
             background-color: white;
@@ -172,7 +182,7 @@
         .modal-content h2 {
             margin-top: 0;
         }
-        .modal-content input, .modal-content select, .modal-content textarea {
+        .modal-content input, .modal-content select {
             width: 100%;
             padding: 10px;
             margin: 10px 0;
@@ -235,7 +245,7 @@
             .logo {
                 font-size: 20px;
             }
-            #splash-screen {
+            #splash-text {
                 font-size: 30px;
             }
         }
@@ -249,7 +259,7 @@
                 opacity: 1;
             }
         }
-        @keyframes fadeIn {
+        @keyframes fadeInModal {
             from { opacity: 0; }
             to { opacity: 1; }
         }
@@ -258,7 +268,10 @@
 <body>
     <!-- Splash Screen -->
     <div id="splash-screen">
-        <div id="splash-logo">Flex Logo</div>
+        <div id="splash-text">Savdo sotiq FLEX</div>
+        <div id="splash-logo">
+            <img src="https://via.placeholder.com/300x500?text=Flex+Logo" alt="Flex Logo">
+        </div>
     </div>
 
     <!-- Main Content -->
@@ -314,8 +327,6 @@
                     <option value="Home & Garden">Home & Garden</option>
                 </select>
                 <div class="error" id="category-error">Category is required</div>
-                <input type="url" id="ad-url" placeholder="Product URL (optional)" aria-label="Product URL">
-                <div class="error" id="url-error">Invalid URL</div>
                 <input type="file" id="ad-image" accept="image/jpeg,image/png" aria-label="Upload ad image">
                 <div class="error" id="image-error">Image must be JPG/PNG and less than 2MB</div>
                 <img id="image-preview" alt="Image Preview">
@@ -344,10 +355,10 @@
         };
 
         let ads = JSON.parse(localStorage.getItem('ads')) || [
-            { id: 1, title: "Used Laptop", price: 200, location: "Tashkent", category: "Electronics", image: "https://via.placeholder.com/150", user: "user1", date: Date.now(), url: "" },
-            { id: 2, title: "Bicycle", price: 50, location: "Samarkand", category: "Vehicles", image: "https://via.placeholder.com/150", user: "user1", date: Date.now(), url: "" },
-            { id: 3, title: "Sofa Set", price: 150, location: "Bukhara", category: "Home & Garden", image: "https://via.placeholder.com/150", user: "user2", date: Date.now(), url: "" },
-            { id: 4, title: "Smartphone", price: 300, location: "Fergana", category: "Electronics", image: "https://via.placeholder.com/150", user: "user2", date: Date.now(), url: "" }
+            { id: 1, title: "Used Laptop", price: 200, location: "Tashkent", category: "Electronics", image: "https://via.placeholder.com/150", user: "user1", date: Date.now() },
+            { id: 2, title: "Bicycle", price: 50, location: "Samarkand", category: "Vehicles", image: "https://via.placeholder.com/150", user: "user1", date: Date.now() },
+            { id: 3, title: "Sofa Set", price: 150, location: "Bukhara", category: "Home & Garden", image: "https://via.placeholder.com/150", user: "user2", date: Date.now() },
+            { id: 4, title: "Smartphone", price: 300, location: "Fergana", category: "Electronics", image: "https://via.placeholder.com/150", user: "user2", date: Date.now() }
         ];
         let currentUser = localStorage.getItem('currentUser') || null;
         let currentPage = 1;
@@ -382,14 +393,12 @@
             document.getElementById('ad-price').value = '';
             document.getElementById('ad-location').value = '';
             document.getElementById('ad-category').value = '';
-            document.getElementById('ad-url').value = '';
             document.getElementById('ad-image').value = '';
             document.getElementById('image-preview').style.display = 'none';
             document.getElementById('title-error').style.display = 'none';
             document.getElementById('price-error').style.display = 'none';
             document.getElementById('location-error').style.display = 'none';
             document.getElementById('category-error').style.display = 'none';
-            document.getElementById('url-error').style.display = 'none';
             document.getElementById('image-error').style.display = 'none';
         }
 
@@ -454,7 +463,6 @@
             const price = document.getElementById('ad-price').value.trim();
             const location = document.getElementById('ad-location').value.trim();
             const category = document.getElementById('ad-category').value;
-            const url = document.getElementById('ad-url').value.trim();
             const image = document.getElementById('image-preview').src;
 
             let valid = true;
@@ -482,12 +490,6 @@
             } else {
                 document.getElementById('category-error').style.display = 'none';
             }
-            if (url && !isValidUrl(url)) {
-                document.getElementById('url-error').style.display = 'block';
-                valid = false;
-            } else {
-                document.getElementById('url-error').style.display = 'none';
-            }
 
             if (valid) {
                 const ad = {
@@ -498,22 +500,12 @@
                     category,
                     image: image || 'https://via.placeholder.com/150',
                     user: currentUser,
-                    date: Date.now(),
-                    url: url || ''
+                    date: Date.now()
                 };
                 ads.unshift(ad);
                 localStorage.setItem('ads', JSON.stringify(ads));
                 renderAds();
                 closeModal();
-            }
-        }
-
-        function isValidUrl(string) {
-            try {
-                new URL(string);
-                return true;
-            } catch (_) {
-                return false;
             }
         }
 
@@ -533,7 +525,6 @@
                     <p>$${ad.price}</p>
                     <p>${ad.location}</p>
                     <p>${ad.category}</p>
-                    ${ad.url ? `<p><a href="${ad.url}" target="_blank">View Product</a></p>` : ''}
                 `;
                 adContainer.appendChild(adCard);
             });
@@ -543,4 +534,20 @@
 
         function renderPagination(totalAds) {
             const totalPages = Math.ceil(totalAds / adsPerPage);
-            const pagination = document.getElementBy
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';
+            for (let i = 1; i <= totalPages; i++) {
+                const button = document.createElement('button');
+                button.innerText = i;
+                button.onclick = () => {
+                    currentPage = i;
+                    renderAds(getFilteredAds(), i);
+                };
+                if (i === currentPage) button.style.backgroundColor = '#00695c';
+                pagination.appendChild(button);
+            }
+        }
+
+        function getFilteredAds() {
+            let filteredAds = ads;
+            const searchQuery = document.getElementById('search-input').value
