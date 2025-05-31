@@ -1,93 +1,161 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="uz">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>FLEX savdo sotiq - Mahsulot qo'shish</title>
-<style>
-  body { font-family: Arial, sans-serif; padding: 20px; background: #f0f0f0; }
-  h2 { text-align: center; }
-  form { background: #fff; padding: 15px; margin-bottom: 20px; border-radius: 5px; box-shadow: 0 0 5px rgba(0,0,0,0.1); max-width: 400px; margin-left: auto; margin-right: auto;}
-  input, button { width: 100%; padding: 8px; margin: 5px 0; border: 1px solid #ccc; border-radius: 3px; box-sizing: border-box; }
-  button { background: #23e5db; border: none; cursor: pointer; font-weight: bold; }
-  button:hover { background: #1bb9b0; }
-  .ad-list { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
-  .ad-card { background: #fff; padding: 10px; width: 220px; border-radius: 5px; box-shadow: 0 0 5px rgba(0,0,0,0.1); text-align: center; }
-  .ad-card img { max-width: 100%; border-radius: 5px; }
-  .ad-card h3 a { text-decoration: none; color: #0056b3; }
-  .ad-card h3 a:hover { text-decoration: underline; }
-  .ad-card p { margin: 5px 0; color: #333; }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FLEX - OLX ga o'xshash Marketplace</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f4f4f4;
+    }
+    header {
+      background-color: #007bff;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 24px;
+    }
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 20px;
+    }
+    .search-bar {
+      margin-bottom: 20px;
+      text-align: right;
+    }
+    .search-bar input {
+      padding: 10px;
+      width: 300px;
+      font-size: 16px;
+    }
+    .products {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .product {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      padding: 15px;
+      width: 250px;
+      text-align: center;
+    }
+    .product img {
+      max-width: 100%;
+      height: 180px;
+      object-fit: cover;
+      margin-bottom: 10px;
+    }
+    .product h3 {
+      margin: 10px 0;
+      font-size: 18px;
+      color: #333;
+    }
+    .product .price {
+      color: green;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+    .product button {
+      padding: 10px 15px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    form {
+      background-color: white;
+      padding: 20px;
+      margin-top: 40px;
+      border-radius: 8px;
+    }
+    form input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    form button {
+      width: 100%;
+      padding: 12px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
+  <header>FLEX - OLX ga o'xshash Marketplace</header>
+  <div class="container">
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Mahsulot qidirish...">
+    </div><div class="products" id="productsContainer"></div>
 
-<h2>Yangi mahsulot qo'shish</h2>
-<form id="adForm">
-  <input type="text" id="title" placeholder="Mahsulot nomi" required />
-  <input type="text" id="price" placeholder="Narxi (misol: $100)" required />
-  <input type="text" id="location" placeholder="Joylashuvi" required />
-  <input type="text" id="url" placeholder="Mahsulot URLsi (ixtiyoriy)" />
-  <input type="text" id="image" placeholder="Rasm URLi (ixtiyoriy)" />
-  <button type="submit">Mahsulot qo'shish</button>
+<form id="productForm">
+  <h2>Mahsulot qo'shish</h2>
+  <input type="text" id="productName" placeholder="Mahsulot nomi" required>
+  <input type="number" id="productPrice" placeholder="Narxi (so'm)" required>
+  <input type="url" id="productImage" placeholder="Rasm URL manzili" required>
+  <input type="url" id="productURL" placeholder="Sotib olish URL manzili" required>
+  <button type="submit">Qo'shish</button>
 </form>
 
-<div class="ad-list" id="adsContainer">
-  <!-- Mahsulotlar shu yerda paydo bo‘ladi -->
-</div>
+  </div>  <script>
+    const products = [];
+    const productsContainer = document.getElementById('productsContainer');
+    const searchInput = document.getElementById('searchInput');
 
-<script>
-  const form = document.getElementById('adForm');
-  const adsContainer = document.getElementById('adsContainer');
+    function renderProducts(filter = '') {
+      productsContainer.innerHTML = '';
+      const filtered = products.filter(p => p.name.toLowerCase().includes(filter.toLowerCase()));
 
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
+      if (filtered.length === 0) {
+        productsContainer.innerHTML = '<p>Mahsulot topilmadi</p>';
+        return;
+      }
 
-    const title = document.getElementById('title').value.trim();
-    const price = document.getElementById('price').value.trim();
-    const location = document.getElementById('location').value.trim();
-    const url = document.getElementById('url').value.trim();
-    const image = document.getElementById('image').value.trim() || 'https://via.placeholder.com/220x150?text=No+Image';
+      filtered.forEach(product => {
+        const card = document.createElement('div');
+        card.className = 'product';
 
-    // Mahsulot kartasi
-    const adCard = document.createElement('div');
-    adCard.className = 'ad-card';
+        card.innerHTML = `
+          <img src="${product.image}" alt="${product.name}">
+          <h3>${product.name}</h3>
+          <div class="price">${product.price.toLocaleString()} so'm</div>
+          <button onclick="window.open('${product.url}', '_blank')">Sotib olish</button>
+        `;
 
-    // Rasm
-    const imgEl = document.createElement('img');
-    imgEl.src = image;
-    imgEl.alt = title;
-
-    // Nomi link bilan (agar url bo‘lsa)
-    const titleEl = document.createElement('h3');
-    if(url){
-      const link = document.createElement('a');
-      link.href = url;
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
-      link.textContent = title;
-      titleEl.appendChild(link);
-    } else {
-      titleEl.textContent = title;
+        productsContainer.appendChild(card);
+      });
     }
 
-    // Narx va joylashuv
-    const priceEl = document.createElement('p');
-    priceEl.textContent = 'Narxi: ' + price;
+    document.getElementById('productForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('productName').value.trim();
+      const price = parseInt(document.getElementById('productPrice').value);
+      const image = document.getElementById('productImage').value.trim();
+      const url = document.getElementById('productURL').value.trim();
 
-    const locationEl = document.createElement('p');
-    locationEl.textContent = 'Joylashuv: ' + location;
+      if (name && price && image && url) {
+        products.push({ name, price, image, url });
+        renderProducts(searchInput.value);
+        this.reset();
+      }
+    });
 
-    adCard.appendChild(imgEl);
-    adCard.appendChild(titleEl);
-    adCard.appendChild(priceEl);
-    adCard.appendChild(locationEl);
+    searchInput.addEventListener('input', () => {
+      renderProducts(searchInput.value);
+    });
 
-    adsContainer.appendChild(adCard);
-
-    // Forma tozalansin
-    form.reset();
-  });
-</script>
-
-</body>
+    renderProducts();
+  </script></body>
 </html>
