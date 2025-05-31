@@ -21,8 +21,14 @@
             align-items: center;
             justify-content: space-between;
         }
-        .header img {
-            height: 40px;
+        .logo {
+            background-color: #002f34;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            padding: 5px 15px;
+            border-radius: 5px;
+            animation: slideIn 1s ease-in-out;
         }
         .header .search-bar {
             width: 50%;
@@ -187,6 +193,19 @@
             .modal-content {
                 width: 90%;
             }
+            .logo {
+                font-size: 20px;
+            }
+        }
+        @keyframes slideIn {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -196,7 +215,7 @@
 </head>
 <body>
     <div class="header">
-        <img src="https://via.placeholder.com/100x40?text=Flex" alt="Flex Logo" aria-label="Flex Logo">
+        <div class="logo" aria-label="Flex Logo">Flex</div>
         <div class="search-bar">
             <input type="text" id="search-input" placeholder="Search for anything..." aria-label="Search ads">
             <button onclick="searchAds()">🔍</button>
@@ -504,4 +523,4 @@
         renderAds();
     </script>
 </body>
-    </html>
+        </html>
