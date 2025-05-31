@@ -1,86 +1,225 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-  <meta charset="UTF-8" />
-  <title>FLE-X Savdo (LocalStorage + Email Buyurtma)</title>
-  <style>
-    body { font-family: Arial, sans-serif; max-width: 700px; margin: auto; padding: 1rem; }
-    input, textarea, button { display: block; width: 100%; margin-bottom: 10px; padding: 8px; font-size: 1rem; }
-    .product { border: 1px solid #ccc; padding: 10px; margin-bottom: 15px; border-radius: 5px; }
-    img { max-width: 100%; height: 150px; object-fit: cover; }
-    .order-btn { background: #007bff; color: white; border: none; padding: 10px; cursor: pointer; border-radius: 3px; }
-    .order-btn:hover { background: #0056b3; }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Savdo Sotiq Sayti</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0; padding: 0;
+    background: #f8f8f8;
+  }
+  header {
+    background-color: #0077cc;
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  header h1 {
+    margin: 0;
+    font-size: 24px;
+  }
+  nav a {
+    color: white;
+    margin-left: 15px;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  nav a:hover {
+    text-decoration: underline;
+  }
+  main {
+    padding: 20px;
+    max-width: 900px;
+    margin: auto;
+  }
+  .search-bar input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+  }
+  .product-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(200px,1fr));
+    gap: 15px;
+  }
+  .product {
+    background: white;
+    border-radius: 6px;
+    padding: 15px;
+    box-shadow: 0 0 7px rgba(0,0,0,0.1);
+  }
+  .product h3 {
+    margin-top: 0;
+    font-size: 18px;
+  }
+  .product p {
+    color: #555;
+  }
+  form {
+    background: white;
+    padding: 15px;
+    margin-top: 25px;
+    border-radius: 6px;
+    box-shadow: 0 0 7px rgba(0,0,0,0.1);
+  }
+  form input, form textarea {
+    width: 100%;
+    padding: 8px;
+    margin: 7px 0 15px;
+    box-sizing: border-box;
+    font-size: 15px;
+  }
+  form button {
+    background-color: #0077cc;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  form button:hover {
+    background-color: #005fa3;
+  }
+  .login-form {
+    background: white;
+    max-width: 300px;
+    margin: 30px auto;
+    padding: 20px;
+    border-radius: 6px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.15);
+  }
+  .login-form h2 {
+    text-align: center;
+  }
+  @media (max-width: 600px) {
+    .product-list {
+      grid-template-columns: repeat(auto-fill,minmax(140px,1fr));
+    }
+  }
+</style>
 </head>
 <body>
-  <h1>FLE-X Mahsulotlar</h1>
 
-  <form id="productForm">
-    <input type="text" id="name" placeholder="Mahsulot nomi" required />
-    <input type="number" id="price" placeholder="Narxi (so‘m)" required />
-    <input type="text" id="image" placeholder="Rasm URL" required />
-    <textarea id="desc" placeholder="Tavsif"></textarea>
-    <button type="submit">Mahsulot qo‘shish</button>
-  </form>
+<header>
+  <h1>Savdo Sotiq</h1>
+  <nav>
+    <a href="#products">Mahsulotlar</a>
+    <a href="#add-product">Mahsulot Qo‘shish</a>
+    <a href="#login">Kirish</a>
+  </nav>
+</header>
 
-  <h2>Mahsulotlar ro‘yxati</h2>
-  <div id="products"></div>
+<main>
+  <section id="products">
+    <h2>Mahsulotlar ro‘yxati</h2>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Mahsulotni qidirish..." onkeyup="filterProducts()" />
+    </div>
+    <div class="product-list" id="productList">
+      <!-- Mahsulotlar shu yerda ko‘rsatiladi -->
+    </div>
+  </section>
 
-  <script>
-    const STORAGE_KEY = 'flex_products';
-    const YOUR_EMAIL = 'sizningemailingiz@example.com'; // O'zingizning emailingizni shu yerga yozing
+  <section id="add-product">
+    <h2>Yangi mahsulot qo‘shish</h2>
+    <form id="productForm" onsubmit="addProduct(event)">
+      <input type="text" id="productName" placeholder="Mahsulot nomi" required />
+      <textarea id="productDesc" placeholder="Mahsulot haqida qisqacha" rows="3" required></textarea>
+      <input type="number" id="productPrice" placeholder="Narxi (so‘mda)" required min="1" />
+      <button type="submit">Qo‘shish</button>
+    </form>
+  </section>
 
-    function getProducts() {
-      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+  <section id="login">
+    <h2>Kirish</h2>
+    <form class="login-form" onsubmit="login(event)">
+      <input type="text" id="username" placeholder="Foydalanuvchi nomi" required />
+      <input type="password" id="password" placeholder="Parol" required />
+      <button type="submit">Kirish</button>
+    </form>
+  </section>
+</main>
+
+<script>
+  // Dastlabki mahsulotlar ro'yxati (misol uchun)
+  let products = [
+    {name: "Telefon Samsung", desc: "Yangi model, 128GB", price: 2500000},
+    {name: "Kompyuter", desc: "Gaming PC, kuchli grafik karta", price: 8000000},
+    {name: "Smart soat", desc: "Sog‘liq uchun qulay", price: 700000},
+  ];
+
+  // Mahsulotlarni ekranga chiqarish funksiyasi
+  function displayProducts(list) {
+    const productList = document.getElementById('productList');
+    productList.innerHTML = '';
+    if(list.length === 0) {
+      productList.innerHTML = '<p>Mahsulot topilmadi.</p>';
+      return;
     }
-
-    function saveProducts(products) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
-    }
-
-    function renderProducts() {
-      const products = getProducts();
-      const container = document.getElementById('products');
-      container.innerHTML = '';
-      if (products.length === 0) {
-        container.innerHTML = '<p>Hozircha mahsulotlar yo‘q.</p>';
-        return;
-      }
-      products.forEach(p => {
-        const mailtoLink = `mailto:${YOUR_EMAIL}?subject=Buyurtma%20${encodeURIComponent(p.name)}&body=Salom,%0D%0AMen%20bu%20mahsulotni%20xohlayman:%0D%0A- Nomi: ${encodeURIComponent(p.name)}%0D%0A- Narxi: ${encodeURIComponent(p.price)} so‘m%0D%0A- Qo‘shimcha ma’lumot:`;
-        container.innerHTML += `
-          <div class="product">
-            <img src="${p.image}" alt="${p.name}" />
-            <h3>${p.name}</h3>
-            <p><b>Narxi:</b> ${p.price} so‘m</p>
-            <p>${p.desc || ''}</p>
-            <button class="order-btn" onclick="location.href='${mailtoLink}'">Buyurtma qilish</button>
-          </div>
-        `;
-      });
-    }
-
-    document.getElementById('productForm').addEventListener('submit', e => {
-      e.preventDefault();
-      const name = document.getElementById('name').value.trim();
-      const price = document.getElementById('price').value.trim();
-      const image = document.getElementById('image').value.trim();
-      const desc = document.getElementById('desc').value.trim();
-
-      if (!name || !price || !image) {
-        alert('Nom, narx va rasm URL kiriting!');
-        return;
-      }
-
-      const products = getProducts();
-      products.push({ id: Date.now(), name, price, image, desc });
-      saveProducts(products);
-      renderProducts();
-
-      e.target.reset();
+    list.forEach(prod => {
+      const div = document.createElement('div');
+      div.classList.add('product');
+      div.innerHTML = `
+        <h3>${prod.name}</h3>
+        <p>${prod.desc}</p>
+        <p><strong>Narxi:</strong> ${prod.price.toLocaleString()} so‘m</p>
+      `;
+      productList.appendChild(div);
     });
+  }
 
-    window.onload = renderProducts;
-  </script>
+  // Boshlang'ich mahsulotlarni ko'rsatish
+  displayProducts(products);
+
+  // Mahsulot qidiruvi
+  function filterProducts() {
+    const query = document.getElementById('searchInput').value.toLowerCase();
+    const filtered = products.filter(p => 
+      p.name.toLowerCase().includes(query) || 
+      p.desc.toLowerCase().includes(query)
+    );
+    displayProducts(filtered);
+  }
+
+  // Mahsulot qo'shish
+  function addProduct(e) {
+    e.preventDefault();
+    const name = document.getElementById('productName').value.trim();
+    const desc = document.getElementById('productDesc').value.trim();
+    const price = Number(document.getElementById('productPrice').value);
+
+    if(name && desc && price > 0) {
+      products.push({name, desc, price});
+      displayProducts(products);
+      e.target.reset();
+      alert('Mahsulot muvaffaqiyatli qo‘shildi!');
+      // Qidiruvni ham tozalash
+      document.getElementById('searchInput').value = '';
+    }
+  }
+
+  // Login uchun oddiy JS (faqat front-end demo)
+  function login(e) {
+    e.preventDefault();
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+
+    // Demo uchun oddiy tekshiruv:
+    if(username === "admin" && password === "1234") {
+      alert('Kirish muvaffaqiyatli!');
+    } else {
+      alert('Noto‘g‘ri foydalanuvchi yoki parol.');
+    }
+    e.target.reset();
+  }
+</script>
+
 </body>
 </html>
