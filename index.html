@@ -1,118 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>FLEX - Login/Register</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      background: #f5f5f5;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .container {
-      background: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-      width: 300px;
-    }
-    h2 {
-      text-align: center;
-    }
-    input {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    button {
-      width: 100%;
-      padding: 10px;
-      background: #23e5db;
-      border: none;
-      border-radius: 5px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .toggle {
-      text-align: center;
-      margin-top: 10px;
-      color: blue;
-      cursor: pointer;
-    }
-    .error {
-      color: red;
-      font-size: 14px;
-      text-align: center;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>FLEX savdo sotiq - Mahsulot qo'shish</title>
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; background: #f0f0f0; }
+  h2 { text-align: center; }
+  form { background: #fff; padding: 15px; margin-bottom: 20px; border-radius: 5px; box-shadow: 0 0 5px rgba(0,0,0,0.1); max-width: 400px; margin-left: auto; margin-right: auto;}
+  input, button { width: 100%; padding: 8px; margin: 5px 0; border: 1px solid #ccc; border-radius: 3px; box-sizing: border-box; }
+  button { background: #23e5db; border: none; cursor: pointer; font-weight: bold; }
+  button:hover { background: #1bb9b0; }
+  .ad-list { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
+  .ad-card { background: #fff; padding: 10px; width: 220px; border-radius: 5px; box-shadow: 0 0 5px rgba(0,0,0,0.1); text-align: center; }
+  .ad-card img { max-width: 100%; border-radius: 5px; }
+  .ad-card h3 a { text-decoration: none; color: #0056b3; }
+  .ad-card h3 a:hover { text-decoration: underline; }
+  .ad-card p { margin: 5px 0; color: #333; }
+</style>
 </head>
 <body>
 
-  <div class="container" id="auth-box">
-    <h2 id="form-title">Login</h2>
-    <div class="error" id="error-msg"></div>
-    <input type="email" id="email" placeholder="Email" />
-    <input type="password" id="password" placeholder="Password" />
-    <button onclick="handleAuth()">Login</button>
-    <div class="toggle" onclick="toggleForm()">Don’t have an account? Register</div>
-  </div>
+<h2>Yangi mahsulot qo'shish</h2>
+<form id="adForm">
+  <input type="text" id="title" placeholder="Mahsulot nomi" required />
+  <input type="text" id="price" placeholder="Narxi (misol: $100)" required />
+  <input type="text" id="location" placeholder="Joylashuvi" required />
+  <input type="text" id="url" placeholder="Mahsulot URLsi (ixtiyoriy)" />
+  <input type="text" id="image" placeholder="Rasm URLi (ixtiyoriy)" />
+  <button type="submit">Mahsulot qo'shish</button>
+</form>
 
-  <script>
-    let isLogin = true;
+<div class="ad-list" id="adsContainer">
+  <!-- Mahsulotlar shu yerda paydo bo‘ladi -->
+</div>
 
-    function toggleForm() {
-      isLogin = !isLogin;
-      document.getElementById('form-title').innerText = isLogin ? 'Login' : 'Register';
-      document.querySelector('button').innerText = isLogin ? 'Login' : 'Register';
-      document.querySelector('.toggle').innerText = isLogin
-        ? 'Don’t have an account? Register'
-        : 'Already have an account? Login';
-      document.getElementById('error-msg').innerText = '';
+<script>
+  const form = document.getElementById('adForm');
+  const adsContainer = document.getElementById('adsContainer');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const title = document.getElementById('title').value.trim();
+    const price = document.getElementById('price').value.trim();
+    const location = document.getElementById('location').value.trim();
+    const url = document.getElementById('url').value.trim();
+    const image = document.getElementById('image').value.trim() || 'https://via.placeholder.com/220x150?text=No+Image';
+
+    // Mahsulot kartasi
+    const adCard = document.createElement('div');
+    adCard.className = 'ad-card';
+
+    // Rasm
+    const imgEl = document.createElement('img');
+    imgEl.src = image;
+    imgEl.alt = title;
+
+    // Nomi link bilan (agar url bo‘lsa)
+    const titleEl = document.createElement('h3');
+    if(url){
+      const link = document.createElement('a');
+      link.href = url;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent = title;
+      titleEl.appendChild(link);
+    } else {
+      titleEl.textContent = title;
     }
 
-    function handleAuth() {
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value.trim();
-      const errorBox = document.getElementById('error-msg');
+    // Narx va joylashuv
+    const priceEl = document.createElement('p');
+    priceEl.textContent = 'Narxi: ' + price;
 
-      if (!email || !password) {
-        errorBox.innerText = 'Please fill all fields';
-        return;
-      }
+    const locationEl = document.createElement('p');
+    locationEl.textContent = 'Joylashuv: ' + location;
 
-      const users = JSON.parse(localStorage.getItem('users') || '{}');
+    adCard.appendChild(imgEl);
+    adCard.appendChild(titleEl);
+    adCard.appendChild(priceEl);
+    adCard.appendChild(locationEl);
 
-      if (isLogin) {
-        if (users[email] && users[email] === password) {
-          errorBox.style.color = 'green';
-          errorBox.innerText = 'Login successful!';
-          setTimeout(() => {
-            window.location.href = 'index.html'; // Asosiy sahifa
-          }, 1000);
-        } else {
-          errorBox.innerText = 'Email or password is incorrect';
-        }
-      } else {
-        if (users[email]) {
-          errorBox.innerText = 'This email is already registered';
-        } else {
-          users[email] = password;
-          localStorage.setItem('users', JSON.stringify(users));
-          errorBox.style.color = 'green';
-          errorBox.innerText = 'Registration successful!';
-          setTimeout(() => {
-            toggleForm();
-          }, 1000);
-        }
-      }
-    }
-  </script>
+    adsContainer.appendChild(adCard);
+
+    // Forma tozalansin
+    form.reset();
+  });
+</script>
 
 </body>
 </html>
