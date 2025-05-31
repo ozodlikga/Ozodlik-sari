@@ -1,344 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Ozodlik sari - Buy and sell items locally with ease">
-    <meta name="keywords" content="Ozodlik sari, buy, sell, marketplace, local ads">
-    <title>Ozodlik sari - Buy & Sell</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
-        }
-
-        /* Splash Screen */
-        #splash-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, #1e3c72, #f64f59);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            color: white;
-        }
-        #splash-text {
-            font-size: 40px;
-            font-weight: bold;
-            animation: slideDown 1.5s ease-in-out;
-        }
-        #splash-logo {
-            margin-top: 20px;
-            animation: fadeIn 1.5s ease-in-out 1.5s forwards;
-            opacity: 0;
-        }
-        #splash-logo img {
-            max-width: 300px;
-            width: 90%;
-        }
-        @keyframes slideDown {
-            0% { transform: translateY(-100vh); opacity: 0; }
-            100% { transform: translateY(0); opacity: 1; }
-        }
-        @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-
-        /* Header */
-        .header {
-            background-color: #002f34;
-            color: white;
-            padding: 10px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .header img {
-            height: 40px;
-        }
-        .header .search-bar {
-            width: 50%;
-            display: flex;
-        }
-        .header .search-bar input {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            border-radius: 5px 0 0 5px;
-        }
-        .header .search-bar button {
-            padding: 10px;
-            background-color: #23e5db;
-            border: none;
-            border-radius: 0 5px 5px 0;
-            cursor: pointer;
-            color: #002f34;
-        }
-        .nav {
-            background-color: #fff;
-            padding: 10px 20px;
-            border-bottom: 1px solid #ddd;
-        }
-        .nav a {
-            color: #002f34;
-            margin-right: 20px;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .main {
-            max-width: 1200px;
-            margin: 20px auto;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-        .ad-card {
-            background-color: white;
-            width: 23%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .ad-card img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 5px;
-        }
-        .ad-card h3 {
-            font-size: 16px;
-            margin: 10px 0;
-            color: #002f34;
-        }
-        .ad-card p {
-            color: #00695c;
-            font-weight: bold;
-            margin: 5px 0;
-        }
-        .footer {
-            background-color: #002f34;
-            color: white;
-            text-align: center;
-            padding: 20px;
-            width: 100%;
-        }
-        .sell-btn {
-            background-color: #23e5db;
-            color: #002f34;
-            padding: 10px 20px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-            position: fixed;
-            top: 20px;
-            right: 20px;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            justify-content: center;
-            align-items: center;
-        }
-        .modal-content {
-            background-color: white;
-            padding: 20px;
-            border-radius: 5px;
-            width: 400px;
-            text-align: left;
-        }
-        .modal-content h2 {
-            margin-top: 0;
-        }
-        .modal-content input, .modal-content textarea {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        .modal-content button {
-            background-color: #23e5db;
-            color: #002f34;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .close-btn {
-            float: right;
-            font-size: 20px;
-            cursor: pointer;
-        }
-        #image-preview {
-            max-width: 100%;
-            margin-top: 10px;
-            display: none;
-        }
-        @media (max-width: 768px) {
-            .header, .nav {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .header .search-bar {
-                width: 100%;
-            }
-            .ad-card {
-                width: 100%;
-            }
-            .modal-content {
-                width: 90%;
-            }
-            #splash-text {
-                font-size: 30px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FLEX - Login/Register</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      width: 300px;
+    }
+    h2 {
+      text-align: center;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #23e5db;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .toggle {
+      text-align: center;
+      margin-top: 10px;
+      color: blue;
+      cursor: pointer;
+    }
+    .error {
+      color: red;
+      font-size: 14px;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
-    <!-- Splash Screen -->
-    <div id="splash-screen">
-        <div id="splash-text">Ozodlik sari</div>
-        <div id="splash-logo">
-            <img src="https://via.placeholder.com/300x500?text=Ozodlik+sari+Logo" alt="Ozodlik sari Logo">
-        </div>
-    </div>
 
-    <!-- Main Content -->
-    <div id="main-content" style="display: none;">
-        <div class="header">
-            <img src="https://via.placeholder.com/100x40?text=Ozodlik+sari" alt="Ozodlik sari Logo">
-            <div class="search-bar">
-                <input type="text" placeholder="Search for anything...">
-                <button>🔍</button>
-            </div>
-            <div>
-                <a href="#" style="color: white; text-decoration: none;">Login</a> | 
-                <a href="#" style="color: white; text-decoration: none;">My Ads</a>
-            </div>
-        </div>
-        <div class="nav">
-            <a href="#">All Categories</a>
-            <a href="#">Electronics</a>
-            <a href="#">Vehicles</a>
-            <a href="#">Property</a>
-            <a href="#">Home & Garden</a>
-        </div>
-        <a href="#" class="sell-btn" onclick="openModal()">+ Sell</a>
-        <div class="main" id="ad-container">
-            <div class="ad-card">
-                <img src="https://via.placeholder.com/150" alt="Ad">
-                <h3>Used Laptop</h3>
-                <p>$200</p>
-                <p>Tashkent</p>
-            </div>
-            <div class="ad-card">
-                <img src="https://via.placeholder.com/150" alt="Ad">
-                <h3>Bicycle</h3>
-                <p>$50</p>
-                <p>Samarkand</p>
-            </div>
-            <div class="ad-card">
-                <img src="https://via.placeholder.com/150" alt="Ad">
-                <h3>Sofa Set</h3>
-                <p>$150</p>
-                <p>Bukhara</p>
-            </div>
-            <div class="ad-card">
-                <img src="https://via.placeholder.com/150" alt="Ad">
-                <h3>Smartphone</h3>
-                <p>$300</p>
-                <p>Fergana</p>
-            </div>
-        </div>
-        <div class="footer">
-            <p>© 2025 Ozodlik sari. All rights reserved.</p>
-        </div>
+  <div class="container" id="auth-box">
+    <h2 id="form-title">Login</h2>
+    <div class="error" id="error-msg"></div>
+    <input type="email" id="email" placeholder="Email" />
+    <input type="password" id="password" placeholder="Password" />
+    <button onclick="handleAuth()">Login</button>
+    <div class="toggle" onclick="toggleForm()">Don’t have an account? Register</div>
+  </div>
 
-        <div class="modal" id="ad-modal">
-            <div class="modal-content">
-                <span class="close-btn" onclick="closeModal()">×</span>
-                <h2>Add New Ad</h2>
-                <input type="text" id="ad-title" placeholder="Ad Title">
-                <input type="text" id="ad-price" placeholder="Price (e.g., $100)">
-                <input type="text" id="ad-location" placeholder="Location">
-                <input type="file" id="ad-image" accept="image/*">
-                <img id="image-preview" alt="Image Preview">
-                <button onclick="addAd()">Submit Ad</button>
-            </div>
-        </div>
-    </div>
+  <script>
+    let isLogin = true;
 
-    <script>
-        // Splash Screen Timer
-        window.onload = function() {
-            setTimeout(() => {
-                document.getElementById('splash-screen').style.display = 'none';
-                document.getElementById('main-content').style.display = 'block';
-            }, 3000);
-        };
+    function toggleForm() {
+      isLogin = !isLogin;
+      document.getElementById('form-title').innerText = isLogin ? 'Login' : 'Register';
+      document.querySelector('button').innerText = isLogin ? 'Login' : 'Register';
+      document.querySelector('.toggle').innerText = isLogin
+        ? 'Don’t have an account? Register'
+        : 'Already have an account? Login';
+      document.getElementById('error-msg').innerText = '';
+    }
 
-        function openModal() {
-            document.getElementById('ad-modal').style.display = 'flex';
+    function handleAuth() {
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const errorBox = document.getElementById('error-msg');
+
+      if (!email || !password) {
+        errorBox.innerText = 'Please fill all fields';
+        return;
+      }
+
+      const users = JSON.parse(localStorage.getItem('users') || '{}');
+
+      if (isLogin) {
+        if (users[email] && users[email] === password) {
+          errorBox.style.color = 'green';
+          errorBox.innerText = 'Login successful!';
+          setTimeout(() => {
+            window.location.href = 'index.html'; // Asosiy sahifa
+          }, 1000);
+        } else {
+          errorBox.innerText = 'Email or password is incorrect';
         }
-
-        function closeModal() {
-            document.getElementById('ad-modal').style.display = 'none';
-            document.getElementById('ad-title').value = '';
-            document.getElementById('ad-price').value = '';
-            document.getElementById('ad-location').value = '';
-            document.getElementById('ad-image').value = '';
-            document.getElementById('image-preview').style.display = 'none';
+      } else {
+        if (users[email]) {
+          errorBox.innerText = 'This email is already registered';
+        } else {
+          users[email] = password;
+          localStorage.setItem('users', JSON.stringify(users));
+          errorBox.style.color = 'green';
+          errorBox.innerText = 'Registration successful!';
+          setTimeout(() => {
+            toggleForm();
+          }, 1000);
         }
+      }
+    }
+  </script>
 
-        document.getElementById('ad-image').addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const preview = document.getElementById('image-preview');
-                    preview.src = e.target.result;
-                    preview.style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-
-        function addAd() {
-            const title = document.getElementById('ad-title').value;
-            const price = document.getElementById('ad-price').value;
-            const location = document.getElementById('ad-location').value;
-            const image = document.getElementById('image-preview').src;
-
-            if (title && price && location) {
-                const adContainer = document.getElementById('ad-container');
-                const adCard = document.createElement('div');
-                adCard.className = 'ad-card';
-                adCard.innerHTML = `
-                    <img src="${image || 'https://via.placeholder.com/150'}" alt="Ad">
-                    <h3>${title}</h3>
-                    <p>${price}</p>
-                    <p>${location}</p>
-                `;
-                adContainer.prepend(adCard);
-                closeModal();
-            } else {
-                alert('Please fill in all fields');
-            }
-        }
-    </script>
 </body>
-    </html>
+</html>
