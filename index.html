@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Flex - Buy and sell items locally with ease">
+    <meta name="keywords" content="Flex, buy, sell, marketplace, local ads">
     <title>Flex - Buy & Sell</title>
     <style>
         body {
@@ -44,12 +46,16 @@
             background-color: #fff;
             padding: 10px 20px;
             border-bottom: 1px solid #ddd;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
         }
-        .nav a {
+        .nav a, .nav select {
             color: #002f34;
             margin-right: 20px;
             text-decoration: none;
             font-weight: bold;
+            padding: 5px;
         }
         .main {
             max-width: 1200px;
@@ -89,16 +95,14 @@
             padding: 20px;
             width: 100%;
         }
-        .sell-btn {
+        .sell-btn, .login-btn {
             background-color: #23e5db;
             color: #002f34;
             padding: 10px 20px;
             border-radius: 5px;
             text-decoration: none;
             font-weight: bold;
-            position: fixed;
-            top: 20px;
-            right: 20px;
+            margin: 10px;
         }
         .modal {
             display: none;
@@ -110,23 +114,26 @@
             background-color: rgba(0,0,0,0.5);
             justify-content: center;
             align-items: center;
+            animation: fadeIn 0.3s;
         }
         .modal-content {
             background-color: white;
             padding: 20px;
             border-radius: 5px;
-            width: 400px;
+            width: 90%;
+            max-width: 400px;
             text-align: left;
         }
         .modal-content h2 {
             margin-top: 0;
         }
-        .modal-content input, .modal-content textarea {
+        .modal-content input, .modal-content select, .modal-content textarea {
             width: 100%;
             padding: 10px;
             margin: 10px 0;
             border: 1px solid #ddd;
             border-radius: 5px;
+            box-sizing: border-box;
         }
         .modal-content button {
             background-color: #23e5db;
@@ -143,91 +150,213 @@
         }
         #image-preview {
             max-width: 100%;
+            max-height: 150px;
             margin-top: 10px;
             display: none;
+            border-radius: 5px;
+        }
+        .error {
+            color: red;
+            font-size: 12px;
+            margin: 5px 0;
+            display: none;
+        }
+        .pagination {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .pagination button {
+            padding: 10px 15px;
+            margin: 0 5px;
+            background-color: #23e5db;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        @media (max-width: 768px) {
+            .header, .nav {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .header .search-bar {
+                width: 100%;
+            }
+            .ad-card {
+                width: 100%;
+            }
+            .modal-content {
+                width: 90%;
+            }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <img src="https://via.placeholder.com/100x40?text=Flex" alt="Flex Logo">
+        <img src="https://via.placeholder.com/100x40?text=Flex" alt="Flex Logo" aria-label="Flex Logo">
         <div class="search-bar">
-            <input type="text" placeholder="Search for anything...">
-            <button>🔍</button>
+            <input type="text" id="search-input" placeholder="Search for anything..." aria-label="Search ads">
+            <button onclick="searchAds()">🔍</button>
         </div>
         <div>
-            <a href="#" style="color: white; text-decoration: none;">Login</a> | 
-            <a href="#" style="color: white; text-decoration: none;">My Ads</a>
+            <a href="#" class="login-btn" id="login-btn" onclick="toggleLogin()">Login</a>
+            <a href="#" style="color: white; text-decoration: none;" id="my-ads" onclick="showMyAds()">My Ads</a>
         </div>
     </div>
     <div class="nav">
-        <a href="#">All Categories</a>
-        <a href="#">Electronics</a>
-        <a href="#">Vehicles</a>
-        <a href="#">Property</a>
-        <a href="#">Home & Garden</a>
+        <select id="category-filter" onchange="filterByCategory()">
+            <option value="">All Categories</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Vehicles">Vehicles</option>
+            <option value="Property">Property</option>
+            <option value="Home & Garden">Home & Garden</option>
+        </select>
+        <select id="sort-filter" onchange="sortAds()">
+            <option value="">Sort By</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="date-desc">Newest First</option>
+        </select>
     </div>
     <a href="#" class="sell-btn" onclick="openModal()">+ Sell</a>
-    <div class="main" id="ad-container">
-        <div class="ad-card">
-            <img src="https://via.placeholder.com/150" alt="Ad">
-            <h3>Used Laptop</h3>
-            <p>$200</p>
-            <p>Tashkent</p>
-        </div>
-        <div class="ad-card">
-            <img src="https://via.placeholder.com/150" alt="Ad">
-            <h3>Bicycle</h3>
-            <p>$50</p>
-            <p>Samarkand</p>
-        </div>
-        <div class="ad-card">
-            <img src="https://via.placeholder.com/150" alt="Ad">
-            <h3>Sofa Set</h3>
-            <p>$150</p>
-            <p>Bukhara</p>
-        </div>
-        <div class="ad-card">
-            <img src="https://via.placeholder.com/150" alt="Ad">
-            <h3>Smartphone</h3>
-            <p>$300</p>
-            <p>Fergana</p>
-        </div>
-    </div>
+    <div class="main" id="ad-container"></div>
+    <div class="pagination" id="pagination"></div>
     <div class="footer">
         <p>© 2025 Flex. All rights reserved.</p>
     </div>
 
     <div class="modal" id="ad-modal">
         <div class="modal-content">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <span class="close-btn" onclick="closeModal()" aria-label="Close modal">×</span>
             <h2>Add New Ad</h2>
-            <input type="text" id="ad-title" placeholder="Ad Title">
-            <input type="text" id="ad-price" placeholder="Price (e.g., $100)">
-            <input type="text" id="ad-location" placeholder="Location">
-            <input type="file" id="ad-image" accept="image/*">
+            <input type="text" id="ad-title" placeholder="Ad Title" aria-label="Ad title">
+            <div class="error" id="title-error">Title is required</div>
+            <input type="text" id="ad-price" placeholder="Price (e.g., 100)" aria-label="Ad price">
+            <div class="error" id="price-error">Valid price is required (numbers only)</div>
+            <input type="text" id="ad-location" placeholder="Location" aria-label="Ad location">
+            <div class="error" id="location-error">Location is required</div>
+            <select id="ad-category" aria-label="Ad category">
+                <option value="">Select Category</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Vehicles">Vehicles</option>
+                <option value="Property">Property</option>
+                <option value="Home & Garden">Home & Garden</option>
+            </select>
+            <div class="error" id="category-error">Category is required</div>
+            <input type="file" id="ad-image" accept="image/jpeg,image/png" aria-label="Upload ad image">
+            <div class="error" id="image-error">Image must be JPG/PNG and less than 2MB</div>
             <img id="image-preview" alt="Image Preview">
             <button onclick="addAd()">Submit Ad</button>
         </div>
     </div>
 
+    <div class="modal" id="login-modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeLoginModal()" aria-label="Close login modal">×</span>
+            <h2>Login</h2>
+            <input type="text" id="username" placeholder="Username" aria-label="Username">
+            <div class="error" id="username-error">Username is required</div>
+            <button onclick="login()">Login</button>
+        </div>
+    </div>
+
     <script>
+        let ads = JSON.parse(localStorage.getItem('ads')) || [
+            { id: 1, title: "Used Laptop", price: 200, location: "Tashkent", category: "Electronics", image: "https://via.placeholder.com/150", user: "user1", date: Date.now() },
+            { id: 2, title: "Bicycle", price: 50, location: "Samarkand", category: "Vehicles", image: "https://via.placeholder.com/150", user: "user1", date: Date.now() },
+            { id: 3, title: "Sofa Set", price: 150, location: "Bukhara", category: "Home & Garden", image: "https://via.placeholder.com/150", user: "user2", date: Date.now() },
+            { id: 4, title: "Smartphone", price: 300, location: "Fergana", category: "Electronics", image: "https://via.placeholder.com/150", user: "user2", date: Date.now() }
+        ];
+        let currentUser = localStorage.getItem('currentUser') || null;
+        let currentPage = 1;
+        const adsPerPage = 4;
+
         function openModal() {
+            if (!currentUser) {
+                alert('Please login to post an ad');
+                openLoginModal();
+                return;
+            }
             document.getElementById('ad-modal').style.display = 'flex';
         }
 
         function closeModal() {
             document.getElementById('ad-modal').style.display = 'none';
+            resetForm();
+        }
+
+        function openLoginModal() {
+            document.getElementById('login-modal').style.display = 'flex';
+        }
+
+        function closeLoginModal() {
+            document.getElementById('login-modal').style.display = 'none';
+            document.getElementById('username').value = '';
+            document.getElementById('username-error').style.display = 'none';
+        }
+
+        function resetForm() {
             document.getElementById('ad-title').value = '';
             document.getElementById('ad-price').value = '';
             document.getElementById('ad-location').value = '';
+            document.getElementById('ad-category').value = '';
             document.getElementById('ad-image').value = '';
             document.getElementById('image-preview').style.display = 'none';
+            document.getElementById('title-error').style.display = 'none';
+            document.getElementById('price-error').style.display = 'none';
+            document.getElementById('location-error').style.display = 'none';
+            document.getElementById('category-error').style.display = 'none';
+            document.getElementById('image-error').style.display = 'none';
+        }
+
+        function login() {
+            const username = document.getElementById('username').value;
+            if (!username) {
+                document.getElementById('username-error').style.display = 'block';
+                return;
+            }
+            currentUser = username;
+            localStorage.setItem('currentUser', currentUser);
+            document.getElementById('login-btn').innerText = `Logout (${currentUser})`;
+            closeLoginModal();
+        }
+
+        function toggleLogin() {
+            if (currentUser) {
+                currentUser = null;
+                localStorage.removeItem('currentUser');
+                document.getElementById('login-btn').innerText = 'Login';
+            } else {
+                openLoginModal();
+            }
+        }
+
+        function showMyAds() {
+            if (!currentUser) {
+                alert('Please login to view your ads');
+                openLoginModal();
+                return;
+            }
+            renderAds(ads.filter(ad => ad.user === currentUser));
         }
 
         document.getElementById('ad-image').addEventListener('change', function(event) {
             const file = event.target.files[0];
+            const imageError = document.getElementById('image-error');
             if (file) {
+                if (!['image/jpeg', 'image/png'].includes(file.type)) {
+                    imageError.innerText = 'Only JPG or PNG allowed';
+                    imageError.style.display = 'block';
+                    return;
+                }
+                if (file.size > 2 * 1024 * 1024) {
+                    imageError.innerText = 'Image must be less than 2MB';
+                    imageError.style.display = 'block';
+                    return;
+                }
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     const preview = document.getElementById('image-preview');
@@ -235,31 +364,144 @@
                     preview.style.display = 'block';
                 };
                 reader.readAsDataURL(file);
+                imageError.style.display = 'none';
             }
         });
 
         function addAd() {
-            const title = document.getElementById('ad-title').value;
-            const price = document.getElementById('ad-price').value;
-            const location = document.getElementById('ad-location').value;
+            const title = document.getElementById('ad-title').value.trim();
+            const price = document.getElementById('ad-price').value.trim();
+            const location = document.getElementById('ad-location').value.trim();
+            const category = document.getElementById('ad-category').value;
             const image = document.getElementById('image-preview').src;
 
-            if (title && price && location) {
-                const adContainer = document.getElementById('ad-container');
+            let valid = true;
+            if (!title) {
+                document.getElementById('title-error').style.display = 'block';
+                valid = false;
+            } else {
+                document.getElementById('title-error').style.display = 'none';
+            }
+            if (!price || isNaN(price) || price <= 0) {
+                document.getElementById('price-error').style.display = 'block';
+                valid = false;
+            } else {
+                document.getElementById('price-error').style.display = 'none';
+            }
+            if (!location) {
+                document.getElementById('location-error').style.display = 'block';
+                valid = false;
+            } else {
+                document.getElementById('location-error').style.display = 'none';
+            }
+            if (!category) {
+                document.getElementById('category-error').style.display = 'block';
+                valid = false;
+            } else {
+                document.getElementById('category-error').style.display = 'none';
+            }
+
+            if (valid) {
+                const ad = {
+                    id: Date.now(),
+                    title,
+                    price: parseFloat(price),
+                    location,
+                    category,
+                    image: image || 'https://via.placeholder.com/150',
+                    user: currentUser,
+                    date: Date.now()
+                };
+                ads.unshift(ad);
+                localStorage.setItem('ads', JSON.stringify(ads));
+                renderAds();
+                closeModal();
+            }
+        }
+
+        function renderAds(filteredAds = ads, page = 1) {
+            const adContainer = document.getElementById('ad-container');
+            adContainer.innerHTML = '';
+            const start = (page - 1) * adsPerPage;
+            const end = start + adsPerPage;
+            const paginatedAds = filteredAds.slice(start, end);
+
+            paginatedAds.forEach(ad => {
                 const adCard = document.createElement('div');
                 adCard.className = 'ad-card';
                 adCard.innerHTML = `
-                    <img src="${image || 'https://via.placeholder.com/150'}" alt="Ad">
-                    <h3>${title}</h3>
-                    <p>${price}</p>
-                    <p>${location}</p>
+                    <img src="${ad.image}" alt="${ad.title}" aria-label="${ad.title}">
+                    <h3>${ad.title}</h3>
+                    <p>$${ad.price}</p>
+                    <p>${ad.location}</p>
+                    <p>${ad.category}</p>
                 `;
-                adContainer.prepend(adCard);
-                closeModal();
-            } else {
-                alert('Please fill in all fields');
+                adContainer.appendChild(adCard);
+            });
+
+            renderPagination(filteredAds.length);
+        }
+
+        function renderPagination(totalAds) {
+            const totalPages = Math.ceil(totalAds / adsPerPage);
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';
+            for (let i = 1; i <= totalPages; i++) {
+                const button = document.createElement('button');
+                button.innerText = i;
+                button.onclick = () => {
+                    currentPage = i;
+                    renderAds(getFilteredAds(), i);
+                };
+                if (i === currentPage) button.style.backgroundColor = '#00695c';
+                pagination.appendChild(button);
             }
         }
+
+        function getFilteredAds() {
+            let filteredAds = ads;
+            const searchQuery = document.getElementById('search-input').value.toLowerCase();
+            const category = document.getElementById('category-filter').value;
+
+            if (searchQuery) {
+                filteredAds = filteredAds.filter(ad =>
+                    ad.title.toLowerCase().includes(searchQuery) ||
+                    ad.location.toLowerCase().includes(searchQuery) ||
+                    ad.category.toLowerCase().includes(searchQuery)
+                );
+            }
+            if (category) {
+                filteredAds = filteredAds.filter(ad => ad.category === category);
+            }
+            return filteredAds;
+        }
+
+        function searchAds() {
+            currentPage = 1;
+            renderAds(getFilteredAds());
+        }
+
+        function filterByCategory() {
+            currentPage = 1;
+            renderAds(getFilteredAds());
+        }
+
+        function sortAds() {
+            const sortValue = document.getElementById('sort-filter').value;
+            let sortedAds = [...getFilteredAds()];
+            if (sortValue === 'price-asc') {
+                sortedAds.sort((a, b) => a.price - b.price);
+            } else if (sortValue === 'price-desc') {
+                sortedAds.sort((a, b) => b.price - a.price);
+            } else if (sortValue === 'date-desc') {
+                sortedAds.sort((a, b) => b.date - a.date);
+            }
+            currentPage = 1;
+            renderAds(sortedAds);
+        }
+
+        document.getElementById('search-input').addEventListener('input', searchAds);
+        renderAds();
     </script>
 </body>
-</html>
+    </html>
