@@ -2,158 +2,128 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <title>Flex Amazon Clone</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Flex Shop</title>
   <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f5f5f5;
-    }
-
-    header {
-      background-color: #1a1a2e;
-      color: white;
-      padding: 15px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo {
-      font-size: 1.8rem;
-      font-weight: bold;
-      color: #00f2fe;
-    }
-
-    nav {
-      background-color: #16213e;
-      padding: 10px;
-      text-align: center;
-      color: white;
-    }
-
-    .container {
-      padding: 20px;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 20px;
-    }
-
-    .card {
-      background-color: white;
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      text-align: center;
-      transition: transform 0.2s;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-    }
-
-    .card img {
-      height: 180px;
-      object-fit: cover;
-      width: 100%;
-      border-radius: 8px;
-    }
-
-    .card h3 {
-      margin: 10px 0 5px;
-      font-size: 1.1rem;
-    }
-
-    .card p {
-      font-weight: bold;
-      color: green;
-      margin-bottom: 10px;
-    }
-
-    .card button {
-      background-color: #00f2fe;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 5px;
-      color: black;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .admin-panel {
-      background-color: #fff;
-      padding: 15px;
-      margin: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-
-    .admin-panel input, .admin-panel button {
-      margin: 5px;
-      padding: 8px;
-    }
-
-    @media (max-width: 600px) {
-      .container {
-        grid-template-columns: 1fr;
-      }
-    }
+    body { font-family: Arial; background: #f0f2f5; margin: 0; }
+    header { background: #232f3e; color: white; padding: 15px; text-align: center; font-size: 24px; }
+    nav { padding: 10px; background: #37475a; color: white; text-align: center; }
+    #loginForm, #registerForm, #addProduct, #productList { margin: 20px auto; width: 90%; max-width: 600px; background: white; padding: 15px; border-radius: 5px; }
+    input, button { padding: 10px; margin: 5px 0; width: 100%; box-sizing: border-box; }
+    .card { border: 1px solid #ccc; border-radius: 8px; padding: 10px; margin-bottom: 10px; background: #fff; }
+    .card img { max-width: 100%; height: 150px; object-fit: cover; border-radius: 5px; }
+    .card button { background: #febd69; border: none; color: black; font-weight: bold; }
   </style>
 </head>
 <body>
 
-<header>
-  <div class="logo">Flex</div>
-  <div>Welcome to Flex Shop!</div>
-</header>
-
+<header>Flex - Amazon Clone</header>
 <nav>
-  Home | T-shirts | Phones | Admin Panel
+  <span id="welcomeUser"></span>
 </nav>
 
-<!-- Admin Panel -->
-<div class="admin-panel">
-  <h3>🛠️ Admin: Add New Product</h3>
-  <input type="text" id="productName" placeholder="Product Name" />
-  <input type="text" id="productPrice" placeholder="Price (e.g. 99000 so'm)" />
-  <input type="text" id="productImage" placeholder="Image URL" />
-  <button onclick="addProduct()">Add Product</button>
+<!-- Register -->
+<div id="registerForm">
+  <h3>Ro'yxatdan o'tish</h3>
+  <input type="text" id="regUsername" placeholder="Username" />
+  <input type="password" id="regPassword" placeholder="Password" />
+  <button onclick="register()">Register</button>
 </div>
 
-<!-- Product Cards -->
-<div class="container" id="productList">
-  <!-- Mahsulotlar shu yerda paydo bo‘ladi -->
+<!-- Login -->
+<div id="loginForm">
+  <h3>Tizimga kirish</h3>
+  <input type="text" id="loginUsername" placeholder="Username" />
+  <input type="password" id="loginPassword" placeholder="Password" />
+  <button onclick="login()">Login</button>
+</div>
+
+<!-- Admin panel -->
+<div id="addProduct" style="display:none;">
+  <h3>Admin Panel: Mahsulot qo'shish</h3>
+  <input type="text" id="productName" placeholder="Mahsulot nomi" />
+  <input type="text" id="productPrice" placeholder="Narxi" />
+  <input type="text" id="productImg" placeholder="Rasm URL manzili" />
+  <button onclick="addProduct()">Qo‘shish</button>
+</div>
+
+<!-- Mahsulotlar -->
+<div id="productList">
+  <h3>Mahsulotlar</h3>
 </div>
 
 <script>
-  function addProduct() {
-    const name = document.getElementById("productName").value;
-    const price = document.getElementById("productPrice").value;
-    const image = document.getElementById("productImage").value;
+  let currentUser = null;
+  const ADMIN = "admin"; // sening usernameng
 
-    if (name && price && image) {
-      const card = document.createElement("div");
-      card.className = "card";
-      card.innerHTML = `
-        <img src="${image}" alt="${name}">
-        <h3>${name}</h3>
-        <p>${price}</p>
-        <button onclick="buyNow('${name}')">Buy Now</button>
-      `;
-      document.getElementById("productList").appendChild(card);
-
-      // Clear inputs
-      document.getElementById("productName").value = '';
-      document.getElementById("productPrice").value = '';
-      document.getElementById("productImage").value = '';
+  function register() {
+    const user = document.getElementById("regUsername").value;
+    const pass = document.getElementById("regPassword").value;
+    const users = JSON.parse(localStorage.getItem("users") || "[]");
+    if (users.find(u => u.user === user)) {
+      alert("Bu foydalanuvchi allaqachon bor.");
     } else {
-      alert("Iltimos, barcha maydonlarni to'ldiring.");
+      users.push({ user, pass });
+      localStorage.setItem("users", JSON.stringify(users));
+      alert("Ro'yxatdan o'tdingiz! Endi login qiling.");
     }
   }
 
-  function buyNow(productName) {
+  function login() {
+    const user = document.getElementById("loginUsername").value;
+    const pass = document.getElementById("loginPassword").value;
+    const users = JSON.parse(localStorage.getItem("users") || "[]");
+    const match = users.find(u => u.user === user && u.pass === pass);
+    if (match) {
+      currentUser = user;
+      document.getElementById("welcomeUser").innerText = "Xush kelibsiz, " + user;
+      document.getElementById("loginForm").style.display = "none";
+      document.getElementById("registerForm").style.display = "none";
+      if (user === ADMIN) document.getElementById("addProduct").style.display = "block";
+      loadProducts();
+    } else {
+      alert("Login yoki parol xato!");
+    }
+  }
+
+  function addProduct() {
+    const name = document.getElementById("productName").value;
+    const price = document.getElementById("productPrice").value;
+    const img = document.getElementById("productImg").value;
+    const products = JSON.parse(localStorage.getItem("products") || "[]");
+    products.push({ name, price, img });
+    localStorage.setItem("products", JSON.stringify(products));
+    loadProducts();
+    document.getElementById("productName").value = "";
+    document.getElementById("productPrice").value = "";
+    document.getElementById("productImg").value = "";
+  }
+
+  function loadProducts() {
+    const products = JSON.parse(localStorage.getItem("products") || "[]");
+    const container = document.getElementById("productList");
+    container.innerHTML = "<h3>Mahsulotlar</h3>";
+    products.forEach(p => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <img src="${p.img}" alt="${p.name}" />
+        <h4>${p.name}</h4>
+        <p><b>${p.price}</b></p>
+        <button onclick="buyProduct('${p.name}')">Buy Now</button>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  function buyProduct(name) {
+    alert(`Mahsulot: ${name} – admin bilan bog‘laning!`);
     window.location.href = "https://t.me/flexshop_admin";
+  }
+
+  // Avto-yuklash (agar login qilingan bo‘lsa)
+  window.onload = () => {
+    loadProducts();
   }
 </script>
 
