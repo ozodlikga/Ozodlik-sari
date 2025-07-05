@@ -1,33 +1,265 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DreamHome 3D - Create You</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D House Showcase - Interactive Virtual Tour</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-gray-100 text-gray-900">
-  <div class="container mx-auto px-4 py-10">
-    <h1 class="text-4xl font-bold text-center mb-6">DreamHome 3D</h1>
-    <p class="text-center text-lg mb-10">Create your own 3D room design with ease.</p>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <h1>🏡 DreamHouse 3D</h1>
+            </div>
+            <nav class="nav-menu">
+                <button class="nav-btn active" data-view="exterior">Exterior</button>
+                <button class="nav-btn" data-view="interior">Interior</button>
+                <button class="nav-btn" data-view="blueprint">Blueprint</button>
+                <button class="nav-btn" data-view="gallery">Gallery</button>
+            </nav>
+        </header>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <div class="bg-white p-6 rounded-xl shadow-xl">
-        <h2 class="text-2xl font-semibold mb-4">Upload Room Blueprint</h2>
-        <input type="file" accept=".png,.jpg,.jpeg,.pdf" class="w-full border border-gray-300 p-2 rounded-md" />
-      </div>
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- 3D House Container -->
+            <div class="house-viewport">
+                <div class="house-container" id="houseContainer">
+                    <!-- House Structure -->
+                    <div class="house-3d" id="house3d">
+                        <!-- Foundation -->
+                        <div class="foundation"></div>
+                        
+                        <!-- Main Structure -->
+                        <div class="house-body">
+                            <!-- Front Wall -->
+                            <div class="wall front-wall">
+                                <div class="door-frame">
+                                    <div class="door" id="frontDoor">
+                                        <div class="door-handle"></div>
+                                        <div class="door-window"></div>
+                                    </div>
+                                </div>
+                                <div class="window window-left" id="windowLeft">
+                                    <div class="window-frame">
+                                        <div class="window-pane"></div>
+                                        <div class="window-cross-h"></div>
+                                        <div class="window-cross-v"></div>
+                                    </div>
+                                </div>
+                                <div class="window window-right" id="windowRight">
+                                    <div class="window-frame">
+                                        <div class="window-pane"></div>
+                                        <div class="window-cross-h"></div>
+                                        <div class="window-cross-v"></div>
+                                    </div>
+                                </div>
+                            </div>
 
-      <div class="bg-white p-6 rounded-xl shadow-xl">
-        <h2 class="text-2xl font-semibold mb-4">Customize Furniture</h2>
-        <p>Select colors, sizes, and positions in real time with our drag-and-drop interface.</p>
-      </div>
+                            <!-- Back Wall -->
+                            <div class="wall back-wall">
+                                <div class="window window-back" id="windowBack">
+                                    <div class="window-frame">
+                                        <div class="window-pane"></div>
+                                        <div class="window-cross-h"></div>
+                                        <div class="window-cross-v"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Left Wall -->
+                            <div class="wall left-wall">
+                                <div class="window window-side" id="windowSide1">
+                                    <div class="window-frame">
+                                        <div class="window-pane"></div>
+                                        <div class="window-cross-h"></div>
+                                        <div class="window-cross-v"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Right Wall -->
+                            <div class="wall right-wall">
+                                <div class="window window-side" id="windowSide2">
+                                    <div class="window-frame">
+                                        <div class="window-pane"></div>
+                                        <div class="window-cross-h"></div>
+                                        <div class="window-cross-v"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Floor -->
+                            <div class="floor"></div>
+                        </div>
+
+                        <!-- Roof -->
+                        <div class="roof">
+                            <div class="roof-front"></div>
+                            <div class="roof-back"></div>
+                            <div class="roof-left"></div>
+                            <div class="roof-right"></div>
+                            <div class="chimney">
+                                <div class="smoke" id="smoke"></div>
+                            </div>
+                        </div>
+
+                        <!-- Garden Elements -->
+                        <div class="garden">
+                            <div class="tree tree-1" id="tree1">
+                                <div class="trunk"></div>
+                                <div class="leaves"></div>
+                            </div>
+                            <div class="tree tree-2" id="tree2">
+                                <div class="trunk"></div>
+                                <div class="leaves"></div>
+                            </div>
+                            <div class="pathway"></div>
+                            <div class="fence"></div>
+                        </div>
+                    </div>
+
+                    <!-- Interior View -->
+                    <div class="interior-view" id="interiorView">
+                        <div class="room living-room">
+                            <div class="furniture sofa" id="sofa"></div>
+                            <div class="furniture coffee-table" id="coffeeTable"></div>
+                            <div class="furniture tv-stand" id="tvStand">
+                                <div class="tv-screen" id="tvScreen"></div>
+                            </div>
+                            <div class="furniture bookshelf" id="bookshelf"></div>
+                            <div class="lighting ceiling-light" id="ceilingLight"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Loading Indicator -->
+                <div class="loading-indicator" id="loadingIndicator">
+                    <div class="spinner"></div>
+                    <p>Loading 3D Model...</p>
+                </div>
+            </div>
+
+            <!-- Control Panel -->
+            <div class="control-panel">
+                <div class="control-section">
+                    <h3>🎮 View Controls</h3>
+                    <div class="control-group">
+                        <button class="control-btn" id="rotateLeft" title="Rotate Left">↺</button>
+                        <button class="control-btn" id="rotateRight" title="Rotate Right">↻</button>
+                        <button class="control-btn" id="zoomIn" title="Zoom In">🔍+</button>
+                        <button class="control-btn" id="zoomOut" title="Zoom Out">🔍-</button>
+                        <button class="control-btn" id="resetView" title="Reset View">🏠</button>
+                    </div>
+                </div>
+
+                <div class="control-section">
+                    <h3>🌅 Environment</h3>
+                    <div class="control-group">
+                        <button class="control-btn toggle-btn" id="dayNightToggle" title="Day/Night Mode">🌙</button>
+                        <button class="control-btn toggle-btn" id="weatherToggle" title="Weather Effects">🌧️</button>
+                        <button class="control-btn toggle-btn" id="autoRotate" title="Auto Rotate">🔄</button>
+                        <button class="control-btn" id="lightsToggle" title="Interior Lights">💡</button>
+                    </div>
+                </div>
+
+                <div class="control-section">
+                    <h3>🚪 Interactive Elements</h3>
+                    <div class="control-group">
+                        <button class="control-btn" id="openDoor" title="Open/Close Door">🚪</button>
+                        <button class="control-btn" id="openWindows" title="Open/Close Windows">🪟</button>
+                        <button class="control-btn" id="turnOnTV" title="Turn On/Off TV">📺</button>
+                        <button class="control-btn" id="moveFurniture" title="Rearrange Furniture">🪑</button>
+                    </div>
+                </div>
+
+                <div class="control-section">
+                    <h3>📐 Preset Views</h3>
+                    <div class="control-group">
+                        <button class="control-btn view-btn" data-angle="0" title="Front View">🏠</button>
+                        <button class="control-btn view-btn" data-angle="90" title="Side View">📐</button>
+                        <button class="control-btn view-btn" data-angle="180" title="Back View">🔄</button>
+                        <button class="control-btn view-btn" data-angle="270" title="Other Side">📏</button>
+                        <button class="control-btn view-btn" data-angle="45" title="Corner View">📊</button>
+                    </div>
+                </div>
+
+                <div class="control-section">
+                    <h3>🎨 Customization</h3>
+                    <div class="control-group">
+                        <button class="control-btn color-btn" data-color="blue" title="Blue Theme">🔵</button>
+                        <button class="control-btn color-btn" data-color="green" title="Green Theme">🟢</button>
+                        <button class="control-btn color-btn" data-color="red" title="Red Theme">🔴</button>
+                        <button class="control-btn color-btn" data-color="purple" title="Purple Theme">🟣</button>
+                        <button class="control-btn" id="randomize" title="Randomize Colors">🎲</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Property Information Panel -->
+        <aside class="info-panel" id="infoPanel">
+            <div class="info-header">
+                <h2>🏡 Property Details</h2>
+                <button class="close-btn" id="closeInfo">✕</button>
+            </div>
+            <div class="info-content">
+                <div class="property-stats">
+                    <div class="stat">
+                        <span class="stat-value">2,450</span>
+                        <span class="stat-label">sq ft</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value">3</span>
+                        <span class="stat-label">bedrooms</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value">2.5</span>
+                        <span class="stat-label">bathrooms</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value">$485,000</span>
+                        <span class="stat-label">price</span>
+                    </div>
+                </div>
+                <div class="property-features">
+                    <h3>✨ Features</h3>
+                    <ul>
+                        <li>🏡 Modern Architecture</li>
+                        <li>🌳 Landscaped Garden</li>
+                        <li>🚗 2-Car Garage</li>
+                        <li>🔥 Fireplace</li>
+                        <li>🏊 Swimming Pool</li>
+                        <li>🌞 Solar Panels</li>
+                        <li>🏠 Smart Home System</li>
+                        <li>🌿 Eco-Friendly Materials</li>
+                    </ul>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <button class="action-btn primary" id="scheduleVisit">📅 Schedule Visit</button>
+            <button class="action-btn secondary" id="saveProperty">❤️ Save Property</button>
+            <button class="action-btn secondary" id="shareProperty">📤 Share</button>
+            <button class="action-btn secondary" id="showInfo">ℹ️ Property Info</button>
+            <button class="action-btn secondary" id="fullscreen">⛶ Fullscreen</button>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2025 DreamHouse 3D - Interactive Virtual Property Tours</p>
+            <div class="social-links">
+                <button class="social-btn" id="facebook">📘</button>
+                <button class="social-btn" id="twitter">🐦</button>
+                <button class="social-btn" id="instagram">📷</button>
+                <button class="social-btn" id="linkedin">💼</button>
+            </div>
+        </footer>
     </div>
 
-    <div class="mt-10 text-center">
-      <button class="bg-blue-600 text-white px-6 py-3 rounded-full text-lg hover:bg-blue-700">
-        Generate 3D Room
-      </button>
-    </div>
-  </div>
+    <script src="script.js"></script>
 </body>
-</html>
+  </html>
