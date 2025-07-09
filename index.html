@@ -1,14 +1,191 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>3D House Designer - Professional Home Design Tool</title>
-    <meta name="description" content="Design and visualize your dream home with our advanced 3D house designer. Real-time rendering, customizable materials, and professional tools." />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Texnologiyalar | Bepul Shablon</title>
+    <style>
+        /* Asosiy stil */
+        :root {
+            --primary: #4F46E5;
+            --secondary: #10B981;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        body {
+            background: #F9FAFB;
+            color: #111827;
+        }
+
+        /* Navbar */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #6B7280;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        .cta-button {
+            background: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            padding: 80px 5%;
+            align-items: center;
+            gap: 50px;
+        }
+        .hero-text {
+            flex: 1;
+        }
+        .hero-text h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        .hero-text p {
+            color: #6B7280;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        .hero-image {
+            flex: 1;
+        }
+        .hero-image img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+
+        /* Features */
+        .features {
+            padding: 80px 5%;
+            text-align: center;
+        }
+        .features h2 {
+            font-size: 2rem;
+            margin-bottom: 60px;
+        }
+        .feature-cards {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+        }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            max-width: 300px;
+        }
+        .card h3 {
+            margin: 15px 0;
+        }
+        .card p {
+            color: #6B7280;
+        }
+
+        /* Footer */
+        footer {
+            background: #111827;
+            color: white;
+            padding: 50px 5%;
+            text-align: center;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        .footer-links a {
+            color: #D1D5DB;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">AI Texnologiyalar</div>
+        <div class="nav-links">
+            <a href="#">Bosh Sahifa</a>
+            <a href="#">Xizmatlar</a>
+            <a href="#">Narxlar</a>
+            <a href="#">Blog</a>
+            <a href="#" class="cta-button">Kirish</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-text">
+            <h1>Sun'iy Intelekt Yechimlari bilan Biznesingizni Rivojlantiring</h1>
+            <p>Bizning AI platformamiz yordamida ishlab chiqish jarayonlarini avtomatlashtiring va samaradorlikni oshiring.</p>
+            <a href="#" class="cta-button">Demo So'rov</a>
+        </div>
+        <div class="hero-image">
+            <img src="https://via.placeholder.com/600x400" alt="AI Illustration">
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features">
+        <h2>Bizning Afzalliklarimiz</h2>
+        <div class="feature-cards">
+            <div class="card">
+                <h3>Tez Integratsiya</h3>
+                <p>Mavjud tizimlaringizga osongina ulaning va bir kunda ishga tushiring.</p>
+            </div>
+            <div class="card">
+                <h3>Qo'llab-quvvatlash</h3>
+                <p>24/7 mijozlarga yordam xizmati va texnik qo'llab-quvvatlash.</p>
+            </div>
+            <div class="card">
+                <h3>Xavfsizlik</h3>
+                <p>Eng so'nggi kriptografiya texnologiyalari bilan ma'lumotlaringiz himoyalangan.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="logo">AI Texnologiyalar</div>
+        <div class="footer-links">
+            <a href="#">Maxfiylik</a>
+            <a href="#">Shartlar</a>
+            <a href="#">Aloqa</a>
+        </div>
+        <p>© 2023 Barcha huquqlar himoyalangan</p>
+    </footer>
+</body>
+  </html>
